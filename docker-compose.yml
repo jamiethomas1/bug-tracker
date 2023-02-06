@@ -16,7 +16,7 @@ services:
         volumes:
             - ./app:/app
     sql:
-        image: mariadb:latest
+        image: mysql:latest
         env_file:
             - production.env
         volumes:
