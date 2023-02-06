@@ -1,3 +1,17 @@
+<?php
+
+include $_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php';
+
+session_start();
+
+if (isset($_SESSION["user_id"])) {
+    $dbh = new UserController();
+    
+    $user = $dbh->getUserByID($_SESSION["user_id"]);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +40,15 @@
                     <a class="nav-link disabled" data-bs-toggle="tab" href="#">Disabled</a>
                 </li>
             </ul>
-            <img src="/img/user.png" alt="Profile Picture" class="avi img-thumbnail">
+            <div>
+                <?php if (isset($user)): ?>
+                    <p class="text-white"><?= htmlspecialchars($user["name"]) ?></p>
+                    <img src="/img/user.png" alt="Profile Picture" class="avi img-thumbnail">
+                    <p><a href="/login/logout.php">Log out</a></p>
+                <?php else: ?>
+                    <p><a href="/login/">Log in</a> or <a href="/sign-up">sign up</a></p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <div class="container">

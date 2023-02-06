@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
+    <script src="/js/validation.js" defer></script>
     <title>Sign Up</title>
 </head>
 <body>
 <div class="wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
-        <form action="signup-logic.php" class="contact" method="post">
+        <form action="signup-logic.php" class="contact" id="signup" method="post" novalidate>
             <div class="form-group">
                 <input type="text" name="username" id="username" placeholder="Username">
+            </div>  
+            <div class="form-group">
+                <input type="email" name="email" id="email" placeholder="Email">
             </div>    
             <div class="form-group">
                 <input type="password" name="password" id="password" placeholder="Password">
