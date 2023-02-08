@@ -53,6 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="password" name="password" id="password" placeholder="Password">
         </div>
         <div>
+            <p>New here? <a href="/sign-up">Create an account</a>.</p>
+        </div>
+        <div>
             <input type="submit" value="Log in">
         </div>
     </form>
