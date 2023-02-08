@@ -8,6 +8,8 @@ if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
     
     $user = $dbh->getUserByID($_SESSION["user_id"]);
+} else {
+    header("Location: /login/");
 }
 
 ?>
@@ -52,7 +54,12 @@ if (isset($_SESSION["user_id"])) {
         </div>
     </div>
     <div class="container">
-        
+        <div class="card">
+            <h1 class="card-title display-1">Organisations</h1>
+            <div class="card-body">
+                <p class="card-text">An organisation allows you to manage your projects. <a href="/create-organisation/">Create one now</a>.</p>
+            </div>
+        </div>
     </div>
     <!--<footer><a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a></footer>-->
 </body>
