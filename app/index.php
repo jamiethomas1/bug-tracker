@@ -10,7 +10,7 @@ if (isset($_SESSION["user_id"])) {
     $orgHandle = new OrgController();
     
     $user = $dbh->getUserByID($_SESSION["user_id"]);
-    $orgList = $orgHandle->getOrganisations($_SESSION["user_id"]);
+    $orgList = $orgHandle->getOrganisations($user["id"]);
 } else {
     header("Location: /login/");
 }
