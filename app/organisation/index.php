@@ -54,6 +54,7 @@ if (isset($_SESSION["user_id"])) {
                             <li><?= htmlspecialchars($proj['name']) ?></li>
                         <?php endforeach; ?>
                     </ul>
+                    <p class="card-text"><a href="/create-project/">Create another project</a>.</p>
                 </div>
             <?php endif; ?>
         </div>

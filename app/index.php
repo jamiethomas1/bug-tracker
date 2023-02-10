@@ -72,6 +72,7 @@ if (isset($_SESSION["user_id"])) {
                             <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['id']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
                         <?php endforeach; ?>
                     </ul>
+                    <p class="card-text"><a href="/create-organisation/">Create another organisation</a>.</p>
                 </div>
             <?php endif; ?>
         </div>
