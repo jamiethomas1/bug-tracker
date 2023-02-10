@@ -57,6 +57,11 @@ if (isset($_SESSION["user_id"])) {
         </div>
     </div>
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+        </nav>
         <div class="card">
             <!-- If user has organisation(s) then display a list, otherwise display default -->
             <?php if (empty($orgList)): ?>

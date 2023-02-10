@@ -43,6 +43,12 @@ if (isset($_SESSION["user_id"])) {
 <body>
     <div class="container">
         <h1 class="display-1"><?= $orgName ?></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><?= $orgName ?></li>
+            </ol>
+        </nav>
         <div class="card">
             <!-- If user has organisation(s) then display a list, otherwise display default -->
             <?php if (empty($projList)): ?>
