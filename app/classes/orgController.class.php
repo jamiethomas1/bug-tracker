@@ -26,4 +26,15 @@ class OrgController extends Dbh {
         }
         return $stmt->fetchAll();
     }
+
+    public function getOrganisationByID($id) {
+        $sql = "SELECT * FROM orgs WHERE id = '$id'";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die($e);
+        }
+        return $stmt->fetch();
+    }
 }
