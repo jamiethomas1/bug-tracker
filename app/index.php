@@ -1,13 +1,16 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php';
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/orgController.class.php');
 
 session_start();
 
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
+    $orgHandle = new OrgController();
     
     $user = $dbh->getUserByID($_SESSION["user_id"]);
+    $orgList = $orgHandle->getOrganisations($_SESSION["user_id"]);
 } else {
     header("Location: /login/");
 }
@@ -55,10 +58,22 @@ if (isset($_SESSION["user_id"])) {
     </div>
     <div class="container">
         <div class="card">
-            <h1 class="card-title display-1">Organisations</h1>
-            <div class="card-body">
-                <p class="card-text">An organisation allows you to manage your projects. <a href="/create-organisation/">Create one now</a>.</p>
-            </div>
+            <!-- If user has organisation(s) then display a list, otherwise display default -->
+            <?php if (empty($orgList)): ?>
+                <h1 class="card-title display-1">Organisations</h1>
+                <div class="card-body">
+                    <p class="card-text">An organisation allows you to manage your projects. <a href="/create-organisation/">Create one now</a>.</p>
+                </div>
+            <?php else: ?>
+                <h1 class="card-title display-1">My Organisations</h1>
+                <div class="card-body">
+                    <ul>
+                        <?php foreach ($orgList as $org): ?>
+                            <li><?= htmlspecialchars($org['name']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <!--<footer><a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a></footer>-->
