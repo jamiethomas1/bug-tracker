@@ -8,12 +8,18 @@ session_start();
 
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
-    $orgHandle = new OrgController();
-    $projHandle = new ProjController();
-    
     $user = $dbh->getUserByID($_SESSION["user_id"]);
+
+    $orgHandle = new OrgController();
     $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
-    $orgName = $orgObj['name'];
+    if ($orgObj) {
+        $orgName = $orgObj['name'];
+        $_SESSION['org_id'] = $orgObj['id'];
+    }
+
+    $projHandle = new ProjController();
+    $projList = $projHandle->getProjects($orgObj['id']);
+
 } else {
     header("Location: /login/");
 }
@@ -35,7 +41,7 @@ if (isset($_SESSION["user_id"])) {
         <h1 class="display-1"><?= $orgName ?></h1>
         <div class="card">
             <!-- If user has organisation(s) then display a list, otherwise display default -->
-            <?php if (empty($orgList)): ?>
+            <?php if (empty($projList)): ?>
                 <h3 class="card-title display-3">Projects</h1>
                 <div class="card-body">
                     <p class="card-text">An project allows you to manage your tickets. <a href="/create-project/">Create one now</a>.</p>
@@ -44,8 +50,8 @@ if (isset($_SESSION["user_id"])) {
                 <h3 class="card-title display-3">My Projects</h1>
                 <div class="card-body">
                     <ul>
-                        <?php foreach ($orgList as $org): ?>
-                            <li><?= htmlspecialchars($org['name']) ?></li>
+                        <?php foreach ($projList as $proj): ?>
+                            <li><?= htmlspecialchars($proj['name']) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
