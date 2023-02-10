@@ -69,7 +69,7 @@ if (isset($_SESSION["user_id"])) {
                 <div class="card-body">
                     <ul>
                         <?php foreach ($orgList as $org): ?>
-                            <li><?= htmlspecialchars($org['name']) ?></li>
+                            <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['id']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
