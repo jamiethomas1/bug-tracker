@@ -11,7 +11,11 @@ if (isset($_SESSION["user_id"])) {
     $user = $dbh->getUserByID($_SESSION["user_id"]);
 
     $orgHandle = new OrgController();
-    $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
+    if (isset($_GET['org_id'])) {
+        $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
+    } else {
+        header("Location: ../");
+    }
     if ($orgObj) {
         $orgName = $orgObj['name'];
         $_SESSION['org_id'] = $orgObj['id'];
