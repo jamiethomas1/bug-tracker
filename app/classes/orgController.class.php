@@ -24,6 +24,6 @@ class OrgController extends Dbh {
         } catch (PDOException $e) {
             die($e);
         }
-        return $stmt->fetch();
+        return $stmt->fetchAll();
     }
 }
