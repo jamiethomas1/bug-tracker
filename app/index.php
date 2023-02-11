@@ -74,7 +74,7 @@ if (isset($_SESSION["user_id"])) {
                 <div class="card-body">
                     <ul>
                         <?php foreach ($orgList as $org): ?>
-                            <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['id']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
+                            <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['orgID']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                     <p class="card-text"><a href="/create-organisation/">Create another organisation</a>.</p>
