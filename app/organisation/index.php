@@ -21,11 +21,11 @@ if (isset($_SESSION["user_id"])) {
     }
     if ($orgObj) {
         $orgName = $orgObj['name'];
-        $_SESSION['org_id'] = $orgObj['id'];
+        $_SESSION['org_id'] = $orgObj['orgID'];
     }
 
     $projHandle = new ProjController();
-    $projList = $projHandle->getProjects($orgObj['id']);
+    $projList = $projHandle->getProjects($orgObj['orgID']);
 
 } else {
     header("Location: /login/");
