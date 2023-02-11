@@ -5,6 +5,8 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/orgController.class.php');
 
 session_start();
 
+$_SESSION['org_id'] = '';
+
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
     $orgHandle = new OrgController();
