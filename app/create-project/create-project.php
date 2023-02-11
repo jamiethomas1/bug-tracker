@@ -3,15 +3,19 @@
 session_start();
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/projController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/php-scripts/randomString.php');
 
 if (empty($_POST['name'])) {
     die("Project name is required.");
 }
 
 $projName = htmlspecialchars($_POST['name']);
+$userID = $_SESSION['user_id'];
+$orgID = $_SESSION['org_id'];
+$projID = getRandomString();
 
 $dbh = new ProjController();
 
-$dbh->setProject($projName, $_SESSION['user_id'], $_SESSION['org_id']);
-header("Location: ../organisation/?org_id=" . $_SESSION['org_id']);
+$dbh->setProject($projName, $userID, $orgID, $projID);
+header("Location: ../organisation/?org_id=" . $orgID);
 exit;
