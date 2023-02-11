@@ -58,7 +58,7 @@ if (isset($_SESSION["user_id"])) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/"><?= $orgName ?></a></li>
+                <li class="breadcrumb-item"><a href="/organisation/?org_id=<?= $orgObj['orgID'] ?>"><?= $orgName ?></a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $projName ?></li>
             </ol>
         </nav>
