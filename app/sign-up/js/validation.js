@@ -1,6 +1,6 @@
-const validation = new JustValidate("#signup");
+const signup = new JustValidate("#signup");
 
-validation
+signup
     .addField("#username", [
         {
             rule: "required"
