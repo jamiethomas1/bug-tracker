@@ -13,6 +13,9 @@ if (isset($_SESSION["user_id"])) {
     $orgHandle = new OrgController();
     if (isset($_GET['org_id'])) {
         $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
+        if ($orgObj['ownerID'] !== $user['id']) {
+            header("Location: ../");
+        }
     } else {
         header("Location: ../");
     }
