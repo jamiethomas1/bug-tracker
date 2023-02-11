@@ -6,6 +6,9 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/projController.class.php');
 
 session_start();
 
+$_SESSION['proj_id'] = '';
+$_SESSION['ticket_id'] = '';
+
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
     $user = $dbh->getUserByID($_SESSION["user_id"]);
