@@ -57,7 +57,7 @@ if (isset($_SESSION["user_id"])) {
             <?php if (empty($projList)): ?>
                 <h3 class="card-title display-3">Projects</h1>
                 <div class="card-body">
-                    <p class="card-text">An project allows you to manage your tickets. <a href="/create-project/">Create one now</a>.</p>
+                    <p class="card-text">A project allows you to manage your tickets. <a href="/create-project/">Create one now</a>.</p>
                 </div>
             <?php else: ?>
                 <h3 class="card-title display-3">My Projects</h1>
