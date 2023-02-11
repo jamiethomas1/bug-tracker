@@ -29,4 +29,15 @@ class TicketController extends Dbh {
         }
         return $stmt->fetchAll();
     }
+
+    public function getTicketByID($id) {
+        $sql = "SELECT * FROM tickets WHERE ticketID = '$id'";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die($e);
+        }
+        return $stmt->fetch();
+    }
 }
