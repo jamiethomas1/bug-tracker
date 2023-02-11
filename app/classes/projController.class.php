@@ -28,4 +28,15 @@ class ProjController extends Dbh {
         }
         return $stmt->fetchAll();
     }
+
+    public function getProjectByID($id) {
+        $sql = "SELECT * FROM projects WHERE projID = '$id'";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die($e);
+        }
+        return $stmt->fetch();
+    }
 }
