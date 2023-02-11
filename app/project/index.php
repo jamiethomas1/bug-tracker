@@ -15,7 +15,7 @@ if (isset($_SESSION["user_id"])) {
     $projHandle = new ProjController();
     if (isset($_GET['org_id'])) {
         $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
-        if (!$orgObj || $orgObj['ownerID'] !== $user['id']) {
+        if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
             header("Location: ../");
         }
         if (isset($_GET['proj_id'])) {

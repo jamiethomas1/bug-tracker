@@ -1,6 +1,7 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php';
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/php-scripts/randomString.php');
 
 if (empty($_POST['username'])) {
     die("Username is required.");
@@ -33,10 +34,12 @@ $pw_repeat = htmlspecialchars($_POST['confirm-password']);
 
 $password_hash = password_hash($pw, PASSWORD_DEFAULT);
 
+$userID = getRandomString();
+
 $dbh = new UserController();
 
 if (!empty($_POST) && $pw === $pw_repeat) {
-    $dbh->setUser($un, $em, $password_hash);
+    $dbh->setUser($un, $em, $password_hash, $userID);
     header("Location: signup-success.html");
     exit;
 }

@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (password_verify($pw, $user['password_hash'])) {
             session_start();
             session_regenerate_id();
-            $_SESSION["user_id"] = $user["id"];
+            $_SESSION["user_id"] = $user["userID"];
             header("Location: ../");
             exit;
         }

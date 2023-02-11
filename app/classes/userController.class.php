@@ -3,14 +3,15 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/classes/dbh.class.php';
 
 class UserController extends Dbh {
-    public function setUser($un, $em, $pw){
-        $sql = "INSERT INTO users (name, email, password_hash) VALUES (:un, :em, :pw);";
+    public function setUser($un, $em, $pw, $userID){
+        $sql = "INSERT INTO users (name, email, password_hash, userID) VALUES (:un, :em, :pw, :userID);";
         $stmt = $this->connect()->prepare($sql);
         try {
             $stmt->execute([
                 'un' => $un,
                 'em' => $em,
-                'pw' => $pw
+                'pw' => $pw,
+                'userID' => $userID
             ]);
         } catch (PDOException $e) {
             if (str_contains($e->getMessage(), "1062 Duplicate entry")) { 
@@ -33,7 +34,7 @@ class UserController extends Dbh {
     }
 
     public function getUserByID($id) {
-        $sql = "SELECT * FROM users WHERE id = '$id'";
+        $sql = "SELECT * FROM users WHERE userID = '$id'";
         $stmt = $this->connect()->prepare($sql);
         try {
             $stmt->execute();
