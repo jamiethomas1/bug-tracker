@@ -34,7 +34,7 @@ if (isset($_SESSION["user_id"])) {
     }
 
     $ticketHandle = new TicketController();
-    $ticketList = $ticketHandle->getTickets($projObj['orgID']);
+    $ticketList = $ticketHandle->getTickets($projObj['projID']);
 
 } else {
     header("Location: /login/");
