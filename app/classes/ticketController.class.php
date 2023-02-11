@@ -3,14 +3,16 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/dbh.class.php');
 
 class TicketController extends Dbh {
-    public function createTicket($name, $ownerID, $projID){
-        $sql = "INSERT INTO tickets (name, ownerID, projID) VALUES (:name, :ownerID, :projID);";
+    public function createTicket($name, $ownerID, $projID, $ticketID, $ticketBody){
+        $sql = "INSERT INTO tickets (name, ownerID, projID, ticketID, body) VALUES (:name, :ownerID, :projID, :ticketID, :ticketBody);";
         $stmt = $this->connect()->prepare($sql);
         try {
             $stmt->execute([
                 'name' => $name,
                 'ownerID' => $ownerID,
-                'projID' => $projID
+                'projID' => $projID,
+                'ticketID' => $ticketID,
+                'ticketBody' => $ticketBody
             ]);
         } catch (PDOException $e) {
             die("PDO Error: " . $e->getMessage());
