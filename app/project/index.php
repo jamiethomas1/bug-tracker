@@ -15,12 +15,12 @@ if (isset($_SESSION["user_id"])) {
     $projHandle = new ProjController();
     if (isset($_GET['org_id'])) {
         $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
-        if ($orgObj['ownerID'] !== $user['id']) {
+        if (!$orgObj || $orgObj['ownerID'] !== $user['id']) {
             header("Location: ../");
         }
         if (isset($_GET['proj_id'])) {
             $projObj = $projHandle->getProjectByID($_GET['proj_id']);
-            if ($projObj['orgID'] !== $orgObj['orgID']) {
+            if (!$projObj || $projObj['orgID'] !== $orgObj['orgID']) {
                 header("Location: ../organisation/?org_id=" . $orgObj['orgID']);
             }
         }
