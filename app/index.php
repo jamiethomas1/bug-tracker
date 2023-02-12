@@ -5,10 +5,12 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/orgController.class.php');
 
 session_start();
 
+// Reset session variables when no longer needed
 $_SESSION['org_id'] = '';
 $_SESSION['proj_id'] = '';
 $_SESSION['ticket_id']  = '';
 
+// If logged in show homepage, otherwise redirect to login page
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
     $orgHandle = new OrgController();
@@ -50,6 +52,7 @@ if (isset($_SESSION["user_id"])) {
                 </li>
             </ul>
             <div>
+                <!-- The else clause should never be activated, but just in case, it displays log in and sign up buttons -->
                 <?php if (isset($user)): ?>
                     <p class="text-white"><?= htmlspecialchars($user["name"]) ?></p>
                     <img src="/img/user.png" alt="Profile Picture" class="avi img-thumbnail">

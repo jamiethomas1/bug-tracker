@@ -7,43 +7,45 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/ticketController.class.php');
 
 session_start();
 
-if (isset($_SESSION["user_id"])) {
-    $dbh = new UserController();
-    $user = $dbh->getUserByID($_SESSION["user_id"]);
-
-    $orgHandle = new OrgController();
-    $projHandle = new ProjController();
-    $ticketHandle = new TicketController();
-    if (isset($_GET['org_id'])) {
-        $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
-        if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
-            header("Location: ../");
-        }
-        if (isset($_GET['proj_id'])) {
-            $projObj = $projHandle->getProjectByID($_GET['proj_id']);
-            if (!$projObj || $projObj['orgID'] !== $orgObj['orgID']) {
-                header("Location: ../organisation/?org_id=" . $orgObj['orgID']);
-            }
-            if (isset($_GET['ticket_id'])) {
-                $ticketObj = $ticketHandle->getTicketByID($_GET['ticket_id']);
-                if (!$ticketObj || $ticketObj['projID'] !== $projObj['projID']) {
-                    header("Location: ../project/?org_id=" . $orgObj['orgID'] . "&proj_id=" . $projObj['projID']);
-                }
-            }
-        }
-    } else {
-        header("Location: ../");
-    }
-    if ($projObj && $orgObj && $ticketObj) {
-        $orgName = $orgObj['name'];
-        $projName = $projObj['name'];
-        $ticketName = $ticketObj['name'];
-        $_SESSION['ticket_id'] = $ticketObj['ticketID'];
-    }
-
-} else {
+// Check if logged in
+if (!isset($_SESSION["user_id"])) {
     header("Location: /login/");
 }
+
+$dbh = new UserController();
+$user = $dbh->getUserByID($_SESSION["user_id"]);
+
+$orgHandle = new OrgController();
+$projHandle = new ProjController();
+$ticketHandle = new TicketController();
+
+if (isset($_GET['org_id'])) {
+    $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
+} else {
+    header("Location: ../");
+}
+if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
+    header("Location: ../");
+}
+
+if (isset($_GET['proj_id'])) {
+    $projObj = $projHandle->getProjectByID($_GET['proj_id']);
+}
+if (!$projObj || $projObj['orgID'] !== $orgObj['orgID']) {
+    header("Location: ../organisation/?org_id=" . $orgObj['orgID']);
+}
+
+if (isset($_GET['ticket_id'])) {
+    $ticketObj = $ticketHandle->getTicketByID($_GET['ticket_id']);
+}
+if (!$ticketObj || $ticketObj['projID'] !== $projObj['projID']) {
+    header("Location: ../project/?org_id=" . $orgObj['orgID'] . "&proj_id=" . $projObj['projID']);
+}
+
+$_SESSION['ticket_id'] = $ticketObj['ticketID'];
+$orgName = $orgObj['name'];
+$projName = $projObj['name'];
+$ticketName = $ticketObj['name'];
 
 ?>
 

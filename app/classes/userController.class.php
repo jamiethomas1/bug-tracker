@@ -3,6 +3,8 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/classes/dbh.class.php';
 
 class UserController extends Dbh {
+
+    // Add a user to users table in database
     public function setUser($un, $em, $pw, $userID){
         $sql = "INSERT INTO users (name, email, password_hash, userID) VALUES (:un, :em, :pw, :userID);";
         $stmt = $this->connect()->prepare($sql);
@@ -20,8 +22,7 @@ class UserController extends Dbh {
         }
     }
 
-    // These getUserBy methods can be refactored with optional parameters so it's only defined once
-    // and can be called by getUser(email: $em) for example
+    // Primarily used to check for duplicate email on signup
     public function getUserByEmail($em) {
         $sql = "SELECT * FROM users WHERE email = '$em'";
         $stmt = $this->connect()->prepare($sql);
@@ -33,6 +34,7 @@ class UserController extends Dbh {
         return $stmt->fetch();
     }
 
+    // Returns a user by their 16-character alphanumeric ID
     public function getUserByID($id) {
         $sql = "SELECT * FROM users WHERE userID = '$id'";
         $stmt = $this->connect()->prepare($sql);

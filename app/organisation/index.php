@@ -9,30 +9,32 @@ session_start();
 $_SESSION['proj_id'] = '';
 $_SESSION['ticket_id'] = '';
 
-if (isset($_SESSION["user_id"])) {
-    $dbh = new UserController();
-    $user = $dbh->getUserByID($_SESSION["user_id"]);
-
-    $orgHandle = new OrgController();
-    if (isset($_GET['org_id'])) {
-        $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
-        if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
-            header("Location: ../");
-        }
-    } else {
-        header("Location: ../");
-    }
-    if ($orgObj) {
-        $orgName = $orgObj['name'];
-        $_SESSION['org_id'] = $orgObj['orgID'];
-    }
-
-    $projHandle = new ProjController();
-    $projList = $projHandle->getProjects($orgObj['orgID']);
-
-} else {
+// Check if logged in
+if (!isset($_SESSION["user_id"])) {
     header("Location: /login/");
 }
+
+$dbh = new UserController();
+$user = $dbh->getUserByID($_SESSION["user_id"]);
+
+$orgHandle = new OrgController();
+
+if (isset($_GET['org_id'])) {
+    $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
+} else {
+    header("Location: ../");
+}
+
+// If organisation ID is invalid or user tries to change URL
+if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
+    header("Location: ../");
+}
+
+// Setting variables for use later on
+$_SESSION['org_id'] = $orgObj['orgID'];
+$orgName = $orgObj['name'];
+$projHandle = new ProjController();
+$projList = $projHandle->getProjects($orgObj['orgID']);
 
 ?>
 

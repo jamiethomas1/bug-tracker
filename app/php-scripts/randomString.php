@@ -1,5 +1,6 @@
 <?php
 
+// Generates a random string of length $length composed of characters in $stringSpace
 function getRandomString($length = 16) {
     $stringSpace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $pieces = [];

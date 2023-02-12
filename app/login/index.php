@@ -2,8 +2,9 @@
 
 include $_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php';
 
-$is_invalid = false;
+$is_invalid = false; // If the entered info does not match the DB records, this will become true and "Invalid login" will display
 
+// If the log in button has been clicked
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $em = htmlspecialchars($_POST['email']);

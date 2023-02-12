@@ -9,38 +9,38 @@ session_start();
 
 $_SESSION['ticket_id'] = '';
 
-if (isset($_SESSION["user_id"])) {
-    $dbh = new UserController();
-    $user = $dbh->getUserByID($_SESSION["user_id"]);
-
-    $orgHandle = new OrgController();
-    $projHandle = new ProjController();
-    if (isset($_GET['org_id'])) {
-        $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
-        if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
-            header("Location: ../");
-        }
-        if (isset($_GET['proj_id'])) {
-            $projObj = $projHandle->getProjectByID($_GET['proj_id']);
-            if (!$projObj || $projObj['orgID'] !== $orgObj['orgID']) {
-                header("Location: ../organisation/?org_id=" . $orgObj['orgID']);
-            }
-        }
-    } else {
-        header("Location: ../");
-    }
-    if ($projObj && $orgObj) {
-        $orgName = $orgObj['name'];
-        $projName = $projObj['name'];
-        $_SESSION['proj_id'] = $projObj['projID'];
-    }
-
-    $ticketHandle = new TicketController();
-    $ticketList = $ticketHandle->getTickets($projObj['projID']);
-
-} else {
+// Check if logged in
+if (!isset($_SESSION["user_id"])) {
     header("Location: /login/");
 }
+
+$dbh = new UserController();
+$user = $dbh->getUserByID($_SESSION["user_id"]);
+
+$orgHandle = new OrgController();
+$projHandle = new ProjController();
+
+if (isset($_GET['org_id'])) {
+    $orgObj = $orgHandle->getOrganisationByID($_GET["org_id"]);
+} else {
+    header("Location: ../");
+}
+if (!$orgObj || $orgObj['ownerID'] !== $user['userID']) {
+    header("Location: ../");
+}
+
+if (isset($_GET['proj_id'])) {
+    $projObj = $projHandle->getProjectByID($_GET['proj_id']);
+}
+if (!$projObj || $projObj['orgID'] !== $orgObj['orgID']) {
+    header("Location: ../organisation/?org_id=" . $orgObj['orgID']);
+}
+
+$_SESSION['proj_id'] = $projObj['projID'];
+$orgName = $orgObj['name'];
+$projName = $projObj['name'];
+$ticketHandle = new TicketController();
+$ticketList = $ticketHandle->getTickets($projObj['projID']);
 
 ?>
 
