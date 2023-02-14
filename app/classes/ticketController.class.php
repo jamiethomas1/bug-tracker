@@ -44,4 +44,16 @@ class TicketController extends Dbh {
         }
         return $stmt->fetch();
     }
+
+    // Returns an associative array of the responses associated with ticket $ticketID
+    public function getResponses($ticketID) {
+        $sql = "SELECT * FROM responses WHERE ticketID = '$ticketID'";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die($e);
+        }
+        return $stmt->fetchAll();
+    }
 }
