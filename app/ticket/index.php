@@ -77,6 +77,7 @@ $responses = $ticketHandle->getResponses($ticketObj['ticketID']);
             <div class="card-body">
                 <p class="card-text">From: <?= $dbh->getUserByID($ticketObj['ownerID'])['name'] ?> at <?= $ticketObj['dt'] ?></p>
                 <p class="card-text"><?= htmlspecialchars($ticketObj['body']) ?></p>
+                <p class="card-text"><a href="delete-ticket.php?ticket_id=<?= $ticketObj['ticketID'] ?>">Delete</a></p>
             </div>
         </div>
         <?php if ($responses): ?>
@@ -86,6 +87,7 @@ $responses = $ticketHandle->getResponses($ticketObj['ticketID']);
                     <div class="card-body">
                         <p class="card-text"><?= $response['responseNum'] ?>. From: <?= $dbh->getUserByID($response['userID'])['name'] ?> at <?= $response['dt'] ?></p>
                         <p class="card-text"><?= htmlspecialchars($response['body']) ?></p>
+                        <p class="card-text"><a href="delete-response.php?response_id=<?= $response['responseID'] ?>">Delete</a></p>
                     </div>
                 </div>
             <?php endforeach; ?>
