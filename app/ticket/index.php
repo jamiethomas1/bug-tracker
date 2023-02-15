@@ -75,6 +75,7 @@ $responses = $ticketHandle->getResponses($ticketObj['ticketID']);
             <!-- If user has organisation(s) then display a list, otherwise display default -->
             <h3 class="card-title display-3"><?= $ticketName ?></h1>
             <div class="card-body">
+                <p class="card-text">From: <?= $dbh->getUserByID($ticketObj['ownerID'])['name'] ?> at <?= $ticketObj['dt'] ?></p>
                 <p class="card-text"><?= htmlspecialchars($ticketObj['body']) ?></p>
             </div>
         </div>
