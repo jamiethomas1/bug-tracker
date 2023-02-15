@@ -46,6 +46,7 @@ $_SESSION['ticket_id'] = $ticketObj['ticketID'];
 $orgName = $orgObj['name'];
 $projName = $projObj['name'];
 $ticketName = $ticketObj['name'];
+$responses = $ticketHandle->getResponses($ticketObj['ticketID']);
 
 ?>
 
@@ -76,6 +77,15 @@ $ticketName = $ticketObj['name'];
             <div class="card-body">
                 <p class="card-text"><?= htmlspecialchars($ticketObj['body']) ?></p>
             </div>
+            <?php if ($responses): ?>
+                <?php foreach ($responses as $response): ?>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text"><?= htmlspecialchars($response['body']) ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </body>
