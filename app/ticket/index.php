@@ -77,16 +77,20 @@ $responses = $ticketHandle->getResponses($ticketObj['ticketID']);
             <div class="card-body">
                 <p class="card-text"><?= htmlspecialchars($ticketObj['body']) ?></p>
             </div>
-            <?php if ($responses): ?>
-                <?php foreach ($responses as $response): ?>
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text"><?= htmlspecialchars($response['body']) ?></p>
-                        </div>
+        </div>
+        <?php if ($responses): ?>
+            <?php foreach ($responses as $response): ?>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><?= htmlspecialchars($response['body']) ?></p>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <div>
+            <p><a href="/ticket-reply/">Reply</a></p>
         </div>
     </div>
+
 </body>
 </html>
