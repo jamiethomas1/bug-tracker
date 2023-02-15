@@ -21,6 +21,24 @@ class TicketController extends Dbh {
         }
     }
 
+    // Add a ticket into the tickets table in the database
+    public function addResponse($ticketID, $responseID, $userID, $name, $body){
+        $sql = "INSERT INTO responses (ticketID, responseNum, responseID, userID, name, body) VALUES (:ticketID, :responseNum, :responseID, :userID, :name, :body);";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute([
+                'ticketID' => $ticketID,
+                'responseNum' => count($this->getResponses($ticketID)) + 1, // This is the number of the response within the specific ticket's response chain
+                'responseID' => $responseID,
+                'userID' => $userID,
+                'name' => $name,
+                'body' => $body
+            ]);
+        } catch (PDOException $e) {
+            die("PDO Error: " . $e->getMessage());
+        }
+    }
+
     // Returns an associative array of the tickets contained within project $projID
     public function getTickets($projID) {
         $sql = "SELECT * FROM tickets WHERE projID = '$projID'";
