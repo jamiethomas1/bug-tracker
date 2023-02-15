@@ -81,7 +81,9 @@ $responses = $ticketHandle->getResponses($ticketObj['ticketID']);
         <?php if ($responses): ?>
             <?php foreach ($responses as $response): ?>
                 <div class="card">
+                    <h4 class="card-title"><?= $response['name'] ? htmlspecialchars($response['name']) : "Re: " . $ticketName ?></h4>
                     <div class="card-body">
+                        <p class="card-text"><?= $response['responseNum'] ?>. From: <?= $dbh->getUserByID($response['userID'])['name'] ?> at <?= $response['dt'] ?></p>
                         <p class="card-text"><?= htmlspecialchars($response['body']) ?></p>
                     </div>
                 </div>
