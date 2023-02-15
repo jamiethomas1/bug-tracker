@@ -5,10 +5,6 @@ session_start();
 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/ticketController.class.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/php-scripts/randomString.php');
 
-if (empty($_POST['name'])) {
-    die("Response title is required.");
-}
-
 if (empty($_POST['body'])) {
     die("Response body is required.");
 }
