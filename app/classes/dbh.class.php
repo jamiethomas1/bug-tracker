@@ -1,5 +1,12 @@
 <?php
 
+enum Delete {
+    case RESPONSE;
+    case TICKET;
+    case PROJECT;
+    case ORGANISATION;
+}
+
 class Dbh {
     private $host;
     private $user;
