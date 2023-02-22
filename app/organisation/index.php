@@ -76,6 +76,9 @@ $projList = $projHandle->getProjects($orgObj['orgID']);
                 </div>
             <?php endif; ?>
         </div>
+        <div>
+            <p><a href="delete-organisation.php?org_id=<?= $orgObj['orgID'] ?>">Delete Organisation</a></p>
+        </div>
     </div>
 </body>
 </html>

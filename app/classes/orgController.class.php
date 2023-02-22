@@ -19,6 +19,57 @@ class OrgController extends Dbh {
         }
     }
 
+    private function deleteResponses($orgID) {
+        $sql = "DELETE FROM responses WHERE orgID = :orgID";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute([
+                'orgID' => $orgID
+            ]);
+        } catch (PDOException $e) {
+            die("PDO Error: " . $e->getMessage());
+        }
+    }
+
+    private function deleteTickets($orgID) {
+        $this->deleteResponses($orgID);
+        $sql = "DELETE FROM tickets WHERE orgID = :orgID";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute([
+                'orgID' => $orgID
+            ]);
+        } catch (PDOException $e) {
+            die("PDO Error: " . $e->getMessage());
+        }
+    }
+
+    private function deleteProjects($orgID) {
+        $this->deleteTickets($orgID);
+        $sql = "DELETE FROM projects WHERE orgID = :orgID";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute([
+                'orgID' => $orgID
+            ]);
+        } catch (PDOException $e) {
+            die("PDO Error: " . $e->getMessage());
+        }
+    }
+
+    public function deleteOrganisation($orgID) {
+        $this->deleteProjects($orgID);
+        $sql = "DELETE FROM orgs WHERE orgID = :orgID";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute([
+                'orgID' => $orgID
+            ]);
+        } catch (PDOException $e) {
+            die("PDO Error: " . $e->getMessage());
+        }
+    }
+
     // Returns an associative array of the organisations owned by $ownerID
     public function getOrganisations($ownerID) {
         $sql = "SELECT * FROM orgs WHERE ownerID = '$ownerID'";
