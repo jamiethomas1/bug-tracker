@@ -36,4 +36,39 @@ class Dbh {
         
         return $pdo;
     }
+
+    public function delete(Delete $del, $id) {
+        switch ($del) {
+            case Delete::RESPONSE:
+                $sql = ["DELETE FROM responses WHERE responseID = :id"];
+                break;
+            case Delete::TICKET:
+                $sql = ["DELETE FROM responses WHERE ticketID = :id",
+                        "DELETE FROM tickets WHERE ticketID = :id"];
+                break;
+            case Delete::PROJECT:
+                $sql = ["DELETE FROM responses WHERE projectID = :id",
+                        "DELETE FROM tickets WHERE projectID = :id",
+                        "DELETE FROM projects WHERE projectID = :id"];
+                break;
+            case Delete::ORGANISATION:
+                $sql = ["DELETE FROM responses WHERE orgID = :id",
+                        "DELETE FROM tickets WHERE orgID = :id",
+                        "DELETE FROM projects WHERE orgID = :id",
+                        "DELETE FROM orgs WHERE orgID = :id"];
+                break;
+            default:
+                die("Invalid Delete enum");
+        }
+        foreach ($sql as $query) {
+            $stmt = $this->connect()->prepare($query);
+            try {
+                $stmt->execute([
+                    'id' => $id
+                ]);
+            } catch (PDOException $e) {
+                die("PDO Error: " . $e->getMessage());
+            }
+        }
+    }
 }

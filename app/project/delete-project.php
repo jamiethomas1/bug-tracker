@@ -9,6 +9,6 @@ $projID = $_SESSION['proj_id'];
 
 $dbh = new ProjController();
 
-$dbh->deleteProject($projID);
+$dbh->delete(Delete::PROJECT, $projID);
 header("Location: ../organisation/?org_id=" . $orgID);
 exit;

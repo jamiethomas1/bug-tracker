@@ -12,6 +12,6 @@ $responseID = $_GET['response_id'];
 
 $dbh = new TicketController();
 
-$dbh->deleteResponse($responseID);
+$dbh->delete(Delete::RESPONSE, $responseID);
 header("Location: ../ticket/?org_id=" . $orgID . "&proj_id=" . $projID . "&ticket_id=" . $ticketID);
 exit;

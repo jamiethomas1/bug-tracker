@@ -11,6 +11,6 @@ $ticketID = $_GET['ticket_id'];
 
 $dbh = new TicketController();
 
-$dbh->deleteTicket($ticketID);
+$dbh->delete(Delete::TICKET, $ticketID);
 header("Location: ../project/?org_id=" . $orgID . "&proj_id=" . $projID);
 exit;
