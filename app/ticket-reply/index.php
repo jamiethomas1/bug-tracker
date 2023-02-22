@@ -20,6 +20,12 @@ $ticketHandle = new TicketController();
 $ticketObj = $ticketHandle->getTicketByID($_SESSION['ticket_id']);
 $ticketName = $ticketObj['name'];
 
+if ($ticketObj['ownerID'] !== $_SESSION['user_id'] || 
+    $ticketObj['orgID'] !== $_SESSION['org_id'] || 
+    $ticketObj['projID'] !== $_SESSION['proj_id']) {
+        header("Location: /");
+    }
+
 ?>
 
 <!DOCTYPE html>
