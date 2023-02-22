@@ -1,3 +1,27 @@
+<?php
+
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/orgController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/projController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/ticketController.class.php');
+
+session_start();
+
+// Check if logged in
+if (!isset($_SESSION["user_id"])) {
+    header("Location: /login/");
+}
+
+$dbh = new UserController();
+$user = $dbh->getUserByID($_SESSION["user_id"]);
+
+$ticketHandle = new TicketController();
+
+$ticketObj = $ticketHandle->getTicketByID($_SESSION['ticket_id']);
+$ticketName = $ticketObj['name'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +37,7 @@
 <body>
     <form action="/ticket-reply/ticket-reply.php" id="ticket-reply" method="post">
         <div>
-            <input type="text" name="name" class="form-control" id="name" placeholder="Ticket Name">
+            <input type="text" name="name" class="form-control" id="name" value="Re: <?= $ticketName ?>">
         </div>
         <div>
             <input type="text" name="body" class="form-control" id="body" placeholder="Reply Body">
