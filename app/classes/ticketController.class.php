@@ -79,6 +79,15 @@ class TicketController extends Dbh {
         }
     }
 
+    // Delete all tickets in a project
+    // This can't be the best way to do this as it is a lot of SQL queries where one would suffice. Need to work out how to delete responses properly.
+    public function deleteTickets($projID) {
+        $tickets = $this->getTickets($projID);
+        foreach ($tickets as $t) {
+            $this->deleteTicket($t['ticketID']);
+        }
+    }
+
     // Returns an associative array of the tickets contained within project $projID
     public function getTickets($projID) {
         $sql = "SELECT * FROM tickets WHERE projID = '$projID'";

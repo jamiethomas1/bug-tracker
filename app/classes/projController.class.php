@@ -1,6 +1,7 @@
 <?php
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/dbh.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/ticketController.class.php');
 
 class ProjController extends Dbh {
 
@@ -13,6 +14,21 @@ class ProjController extends Dbh {
                 'name' => $name,
                 'ownerID' => $ownerID,
                 'orgID' => $orgID,
+                'projID' => $projID
+            ]);
+        } catch (PDOException $e) {
+            die("PDO Error: " . $e->getMessage());
+        }
+    }
+
+    public function deleteProject($projID) {
+        $tc = new TicketController();
+        $tc->deleteTickets($projID);
+
+        $sql = "DELETE FROM projects WHERE projID = :projID";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute([
                 'projID' => $projID
             ]);
         } catch (PDOException $e) {

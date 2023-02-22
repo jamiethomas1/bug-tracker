@@ -81,6 +81,9 @@ $ticketList = $ticketHandle->getTickets($projObj['projID']);
                     <p class="card-text"><a href="/create-ticket/">Create another ticket</a>.</p>
                 </div>
             <?php endif; ?>
+            <div>
+                <p><a href="delete-project.php?proj_id=<?= $projObj['projID'] ?>">Delete Project</a></p>
+            </div>
         </div>
     </div>
 </body>
