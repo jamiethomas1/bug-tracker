@@ -1,16 +1,11 @@
-const createTicket = new JustValidate("#create-ticket");
+const ticketReply = new JustValidate("#ticket-reply");
 
-createTicket
-    .addField("#name", [
-        {
-            rule: "required"
-        }
-    ])
+ticketReply
     .addField("#body", [
         {
             rule: "required"
         }
     ])
     .onSuccess(event => {
-        document.getElementById("create-ticket").submit();
+        document.getElementById("ticket-reply").submit();
     });
