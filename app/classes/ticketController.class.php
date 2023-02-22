@@ -5,13 +5,14 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/dbh.class.php');
 class TicketController extends Dbh {
 
     // Add a ticket into the tickets table in the database
-    public function createTicket($name, $ownerID, $projID, $ticketID, $ticketBody){
-        $sql = "INSERT INTO tickets (name, ownerID, projID, ticketID, body) VALUES (:name, :ownerID, :projID, :ticketID, :ticketBody);";
+    public function createTicket($name, $ownerID, $orgID, $projID, $ticketID, $ticketBody){
+        $sql = "INSERT INTO tickets (name, ownerID, orgID, projID, ticketID, body) VALUES (:name, :ownerID, :orgID, :projID, :ticketID, :ticketBody);";
         $stmt = $this->connect()->prepare($sql);
         try {
             $stmt->execute([
                 'name' => $name,
                 'ownerID' => $ownerID,
+                'orgID' => $orgID,
                 'projID' => $projID,
                 'ticketID' => $ticketID,
                 'ticketBody' => $ticketBody
@@ -22,12 +23,14 @@ class TicketController extends Dbh {
     }
 
     // Add a ticket into the tickets table in the database
-    public function addResponse($ticketID, $responseID, $userID, $name, $body){
-        $sql = "INSERT INTO responses (ticketID, responseNum, responseID, userID, name, body) VALUES (:ticketID, :responseNum, :responseID, :userID, :name, :body);";
+    public function addResponse($ticketID, $projID, $orgID, $responseID, $userID, $name, $body){
+        $sql = "INSERT INTO responses (ticketID, projID, orgID, responseNum, responseID, userID, name, body) VALUES (:ticketID, :projID, :orgID, :responseNum, :responseID, :userID, :name, :body);";
         $stmt = $this->connect()->prepare($sql);
         try {
             $stmt->execute([
                 'ticketID' => $ticketID,
+                'projID' => $projID,
+                'orgID' => $orgID,
                 'responseNum' => count($this->getResponses($ticketID)) + 1, // This is the number of the response within the specific ticket's response chain
                 'responseID' => $responseID,
                 'userID' => $userID,
@@ -76,15 +79,6 @@ class TicketController extends Dbh {
             ]);
         } catch (PDOException $e) {
             die("PDO Error: " . $e->getMessage());
-        }
-    }
-
-    // Delete all tickets in a project
-    // This can't be the best way to do this as it is a lot of SQL queries where one would suffice. Need to work out how to delete responses properly.
-    public function deleteTickets($projID) {
-        $tickets = $this->getTickets($projID);
-        foreach ($tickets as $t) {
-            $this->deleteTicket($t['ticketID']);
         }
     }
 

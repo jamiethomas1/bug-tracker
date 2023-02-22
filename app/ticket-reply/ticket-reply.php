@@ -20,6 +20,6 @@ $responseBody = htmlspecialchars($_POST['body']);
 
 $dbh = new TicketController();
 
-$dbh->addResponse($ticketID, $responseID, $userID, $ticketName, $responseBody);
+$dbh->addResponse($ticketID, $projID, $orgID, $responseID, $userID, $ticketName, $responseBody);
 header("Location: ../ticket/?org_id=" . $orgID . "&proj_id=" . $projID . "&ticket_id=" . $ticketID);
 exit;

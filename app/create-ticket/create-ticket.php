@@ -22,6 +22,6 @@ $ticketBody = htmlspecialchars($_POST['body']);
 
 $dbh = new TicketController();
 
-$dbh->createTicket($ticketName, $ownerID, $projID, $ticketID, $ticketBody);
+$dbh->createTicket($ticketName, $ownerID, $orgID, $projID, $ticketID, $ticketBody);
 header("Location: ../project/?org_id=" . $orgID . "&proj_id=" . $projID);
 exit;
