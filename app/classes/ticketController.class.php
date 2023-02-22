@@ -42,46 +42,6 @@ class TicketController extends Dbh {
         }
     }
 
-    // Delete a ticket response
-    public function deleteResponse($responseID){
-        $sql = "DELETE FROM responses WHERE responseID = :responseID";
-        $stmt = $this->connect()->prepare($sql);
-        try {
-            $stmt->execute([
-                'responseID' => $responseID
-            ]);
-        } catch (PDOException $e) {
-            die("PDO Error: " . $e->getMessage());
-        }
-    }
-
-    // Delete all responses to a ticket (Private: only to be called when deleting a ticket)
-    private function deleteResponses($ticketID){
-        $sql = "DELETE FROM responses WHERE ticketID = :ticketID";
-        $stmt = $this->connect()->prepare($sql);
-        try {
-            $stmt->execute([
-                'ticketID' => $ticketID
-            ]);
-        } catch (PDOException $e) {
-            die("PDO Error: " . $e->getMessage());
-        }
-    }
-
-    // Delete a ticket
-    public function deleteTicket($ticketID){
-        $this->deleteResponses($ticketID);
-        $sql = "DELETE FROM tickets WHERE ticketID = :ticketID";
-        $stmt = $this->connect()->prepare($sql);
-        try {
-            $stmt->execute([
-                'ticketID' => $ticketID
-            ]);
-        } catch (PDOException $e) {
-            die("PDO Error: " . $e->getMessage());
-        }
-    }
-
     // Returns an associative array of the tickets contained within project $projID
     public function getTickets($projID) {
         $sql = "SELECT * FROM tickets WHERE projID = '$projID'";

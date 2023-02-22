@@ -21,44 +21,6 @@ class ProjController extends Dbh {
         }
     }
 
-    private function deleteResponses($projID) {
-        $sql = "DELETE FROM responses WHERE projID = :projID";
-        $stmt = $this->connect()->prepare($sql);
-        try {
-            $stmt->execute([
-                'projID' => $projID
-            ]);
-        } catch (PDOException $e) {
-            die("PDO Error: " . $e->getMessage());
-        }
-    }
-
-    private function deleteTickets($projID) {
-        $this->deleteResponses($projID);
-        $sql = "DELETE FROM tickets WHERE projID = :projID";
-        $stmt = $this->connect()->prepare($sql);
-        try {
-            $stmt->execute([
-                'projID' => $projID
-            ]);
-        } catch (PDOException $e) {
-            die("PDO Error: " . $e->getMessage());
-        }
-    }
-
-    public function deleteProject($projID) {
-        $this->deleteTickets($projID);
-        $sql = "DELETE FROM projects WHERE projID = :projID";
-        $stmt = $this->connect()->prepare($sql);
-        try {
-            $stmt->execute([
-                'projID' => $projID
-            ]);
-        } catch (PDOException $e) {
-            die("PDO Error: " . $e->getMessage());
-        }
-    }
-
     // Returns an associative array of the projects contained within organisation $orgID
     public function getProjects($orgID) {
         $sql = "SELECT * FROM projects WHERE orgID = '$orgID'";

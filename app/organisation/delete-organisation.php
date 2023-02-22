@@ -8,6 +8,6 @@ $orgID = $_SESSION['org_id'];
 
 $dbh = new OrgController();
 
-$dbh->deleteOrganisation($orgID);
+$dbh->delete(Delete::ORGANISATION, $orgID);
 header("Location: /");
 exit;
