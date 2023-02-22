@@ -17,5 +17,5 @@ $projID = getRandomString();
 $dbh = new ProjController();
 
 $dbh->setProject($projName, $userID, $orgID, $projID);
-header("Location: ../organisation/?org_id=" . $orgID);
+header("Location: ../project/?org_id=$orgID&proj_id=$projID");
 exit;

@@ -16,5 +16,5 @@ $orgID = getRandomString();
 $dbh = new OrgController();
 
 $dbh->setOrganisation($orgName, $userID, $orgID);
-header("Location: ../index.php");
+header("Location: ../organisation/?org_id=$orgID");
 exit;
