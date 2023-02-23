@@ -37,29 +37,32 @@ if (isset($_SESSION["user_id"])) {
 <body>
     <div class="navbar bg-dark" data-bs-theme="dark" role="navigation">
         <div class="container justify-content-end">
-            <ul class="nav nav-pills">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#">Active</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#">Link</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#">Link</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link disabled" data-bs-toggle="tab" href="#">Disabled</a>
-                </li>
-            </ul>
-            <div>
-                <!-- The else clause should never be activated, but just in case, it displays log in and sign up buttons -->
-                <?php if (isset($user)): ?>
-                    <p class="text-white"><?= htmlspecialchars($user["name"]) ?></p>
-                    <img src="/img/user.png" alt="Profile Picture" class="avi img-thumbnail">
-                    <p><a href="/login/logout.php">Log out</a></p>
-                <?php else: ?>
-                    <p><a href="/login/">Log in</a> or <a href="/sign-up">sign up</a></p>
-                <?php endif; ?>
+            <div class="navbar navbar-expand-lg">
+                <ul class="nav nav-pills">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#">Active</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#">Link</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#">Link</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#">Disabled</a>
+                    </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/img/user.png" alt="Profile Picture" class="avi img-thumbnail">
+                        <p class="text-white mb-0"><?= htmlspecialchars($user["name"]) ?></p>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="dropdown-item">Profile</a></li>
+                        <li><a href="#" class="dropdown-item">Settings</a></li>
+                        <li><a href="/login/logout.php" class="dropdown-item">Log out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
