@@ -58,7 +58,7 @@ if (isset($_SESSION["user_id"])) {
                         <p class="text-white mb-0"><?= htmlspecialchars($user["name"]) ?></p>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="dropdown-item">Profile</a></li>
+                        <li><a href="/user/index.php" class="dropdown-item">Profile</a></li>
                         <li><a href="#" class="dropdown-item">Settings</a></li>
                         <li><a href="/login/logout.php" class="dropdown-item">Log out</a></li>
                     </ul>
