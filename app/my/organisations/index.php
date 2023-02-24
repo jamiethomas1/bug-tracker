@@ -13,7 +13,10 @@ $_SESSION['ticket_id']  = '';
 // If logged in show homepage, otherwise redirect to login page
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
+    $orgHandle = new OrgController();
+    
     $user = $dbh->getUserByID($_SESSION["user_id"]);
+    $orgList = $orgHandle->getOrganisations($user["userID"]);
 } else {
     header("Location: /login/");
 }
@@ -33,11 +36,11 @@ if (isset($_SESSION["user_id"])) {
     <title>Bug Tracker</title>
 </head>
 <body>
-    <div class="navbar bg-dark navbar-expand-lg" data-bs-theme="dark" role="navigation">
+<div class="navbar bg-dark navbar-expand-lg" data-bs-theme="dark" role="navigation">
         <div class="container justify-content-end">
             <ul class="nav nav-pills">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="/my/organisations/">Organisations</a>
+                    <a class="nav-link active" href="/my/organisations/">Organisations</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="#">Projects</a>
@@ -68,11 +71,28 @@ if (isset($_SESSION["user_id"])) {
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Home</li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Organisations</li>
             </ol>
         </nav>
         <div class="card">
-            <h1 class="card-title display-1">Homepage</h1>
+            <!-- If user has organisation(s) then display a list, otherwise display default -->
+            <?php if (empty($orgList)): ?>
+                <h1 class="card-title display-1">Organisations</h1>
+                <div class="card-body">
+                    <p class="card-text">An organisation allows you to manage your projects. <a href="/create-organisation/">Create one now</a>.</p>
+                </div>
+            <?php else: ?>
+                <h1 class="card-title display-1">My Organisations</h1>
+                <div class="card-body">
+                    <ul>
+                        <?php foreach ($orgList as $org): ?>
+                            <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['orgID']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <p class="card-text"><a href="/create-organisation/">Create another organisation</a>.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </body>
