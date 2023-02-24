@@ -72,9 +72,11 @@ if (isset($_SESSION["user_id"])) {
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Home</li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Profile</li>
             </ol>
         </nav>
+        <h1>Hello, <?= $user['name'] ?></h1>
     </div>
 </body>
 </html>
