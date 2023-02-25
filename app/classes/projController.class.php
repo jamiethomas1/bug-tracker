@@ -33,6 +33,18 @@ class ProjController extends Dbh {
         return $stmt->fetchAll();
     }
 
+    // Returns an associative array of the projects owned by user $userID
+    public function getProjectsByUser($userID) {
+        $sql = "SELECT * FROM projects WHERE ownerID = '$userID'";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die($e);
+        }
+        return $stmt->fetchAll();
+    }
+
     // Returns a project by its 16-character alphanumeric ID
     public function getProjectByID($id) {
         $sql = "SELECT * FROM projects WHERE projID = '$id'";

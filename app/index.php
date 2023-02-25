@@ -42,13 +42,13 @@ if (isset($_SESSION["user_id"])) {
                         <a class="nav-link" href="/my/organisations/">Organisations</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#">Projects</a>
+                        <a class="nav-link" href="/my/projects/">Projects</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#">Tickets</a>
+                        <a class="nav-link" href="/my/tickets/">Tickets</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#">Inbox</a>
+                        <a class="nav-link" href="/inbox/">Inbox</a>
                     </li>
                 </ul>
                 <div class="dropdown">
