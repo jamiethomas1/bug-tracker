@@ -66,6 +66,7 @@ $responses = $ticketHandle->getResponses($ticketObj['ticketID']);
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/my/organisations/">Organisations</a></li>
                 <li class="breadcrumb-item"><a href="/organisation/?org_id=<?= $orgObj['orgID'] ?>"><?= $orgName ?></a></li>
                 <li class="breadcrumb-item"><a href="/project/?org_id=<?= $orgObj['orgID'] ?>&proj_id=<?= $projObj['projID'] ?>"><?= $projName ?></a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $ticketName ?></li>
