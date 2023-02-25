@@ -86,7 +86,7 @@ if (isset($_SESSION["user_id"])) {
                 <div class="card-body">
                     <ul>
                         <?php foreach ($projList as $proj): ?>
-                            <li><a href="/project/?org_id=<?= htmlspecialchars($proj['orgID']) ?> &proj_id= <?= htmlspecialchars($proj['projID']) ?>"><?= htmlspecialchars($proj['name']);  ?></a></li>
+                            <li><a href="/project/?org_id=<?= htmlspecialchars($proj['orgID']) ?>&proj_id=<?= htmlspecialchars($proj['projID']) ?>"><?= htmlspecialchars($proj['name']); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
