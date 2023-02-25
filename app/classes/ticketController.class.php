@@ -54,6 +54,18 @@ class TicketController extends Dbh {
         return $stmt->fetchAll();
     }
 
+    // Returns an associative array of the tickets owned by user $userID
+    public function getTicketsByUser($userID) {
+        $sql = "SELECT * FROM tickets WHERE ownerID = '$userID'";
+        $stmt = $this->connect()->prepare($sql);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die($e);
+        }
+        return $stmt->fetchAll();
+    }
+
     // Returns a ticket by its 16-character alphanumeric ID
     public function getTicketByID($id) {
         $sql = "SELECT * FROM tickets WHERE ticketID = '$id'";

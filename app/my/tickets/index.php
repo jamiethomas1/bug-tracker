@@ -1,7 +1,7 @@
 <?php
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/userController.class.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/orgController.class.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/ticketController.class.php');
 
 session_start();
 
@@ -13,10 +13,10 @@ $_SESSION['ticket_id']  = '';
 // If logged in show homepage, otherwise redirect to login page
 if (isset($_SESSION["user_id"])) {
     $dbh = new UserController();
-    $orgHandle = new OrgController();
+    $ticketHandle = new TicketController();
     
     $user = $dbh->getUserByID($_SESSION["user_id"]);
-    $orgList = $orgHandle->getOrganisations($user["userID"]);
+    $ticketList = $ticketHandle->getTicketsByUser($user["userID"]);
 } else {
     header("Location: /login/");
 }
@@ -40,13 +40,13 @@ if (isset($_SESSION["user_id"])) {
         <div class="container justify-content-end">
             <ul class="nav nav-pills">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" href="/my/organisations/">Organisations</a>
+                    <a class="nav-link" href="/my/organisations/">Organisations</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="#">Projects</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="#">Tickets</a>
+                    <a class="nav-link active" href="#">Tickets</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="#">Inbox</a>
@@ -72,25 +72,23 @@ if (isset($_SESSION["user_id"])) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Organisations</li>
+                <li class="breadcrumb-item active" aria-current="page">Tickets</li>
             </ol>
         </nav>
         <div class="card">
-            <!-- If user has organisation(s) then display a list, otherwise display default -->
-            <?php if (empty($orgList)): ?>
-                <h1 class="card-title display-1">Organisations</h1>
+            <h1 class="card-title display-1">My Tickets</h1>
+            <!-- If user has ticket(s) then display a list, otherwise display default -->
+            <?php if (empty($ticketList)): ?>
                 <div class="card-body">
-                    <p class="card-text">An organisation allows you to manage your projects. <a href="/create-organisation/">Create one now</a>.</p>
+                    <p class="card-text">No tickets!</p>
                 </div>
             <?php else: ?>
-                <h1 class="card-title display-1">My Organisations</h1>
                 <div class="card-body">
                     <ul>
-                        <?php foreach ($orgList as $org): ?>
-                            <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['orgID']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
+                        <?php foreach ($ticketList as $ticket): ?>
+                            <li><a href="/project/?org_id=<?= htmlspecialchars($ticket['orgID']) ?>&proj_id= <?= htmlspecialchars($ticket['projID']) ?>&ticket_id= <?= htmlspecialchars($ticket['ticketID']) ?>"><?= htmlspecialchars($ticket['name']); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
-                    <p class="card-text"><a href="/create-organisation/">Create another organisation</a>.</p>
                 </div>
             <?php endif; ?>
         </div>

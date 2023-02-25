@@ -77,7 +77,7 @@ if (isset($_SESSION["user_id"])) {
         </nav>
         <div class="card">
             <h1 class="card-title display-1">My Projects</h1>
-            <!-- If user has organisation(s) then display a list, otherwise display default -->
+            <!-- If user has ticket(s) then display a list, otherwise display default -->
             <?php if (empty($projList)): ?>
                 <div class="card-body">
                     <p class="card-text">No projects!</p>
