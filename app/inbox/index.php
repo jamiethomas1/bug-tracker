@@ -40,7 +40,7 @@ if (isset($_SESSION["user_id"])) {
         <div class="container justify-content-end">
             <ul class="nav nav-pills">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" href="/my/organisations/">Organisations</a>
+                    <a class="nav-link" href="/my/organisations/">Organisations</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="#">Projects</a>
@@ -49,7 +49,7 @@ if (isset($_SESSION["user_id"])) {
                     <a class="nav-link" href="#">Tickets</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="#">Inbox</a>
+                    <a class="nav-link active" href="#">Inbox</a>
                 </li>
             </ul>
             <div class="dropdown">
@@ -72,27 +72,14 @@ if (isset($_SESSION["user_id"])) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Organisations</li>
+                <li class="breadcrumb-item active" aria-current="page">Inbox</li>
             </ol>
         </nav>
         <div class="card">
-            <!-- If user has organisation(s) then display a list, otherwise display default -->
-            <?php if (empty($orgList)): ?>
-                <h1 class="card-title display-1">Organisations</h1>
-                <div class="card-body">
-                    <p class="card-text">An organisation allows you to manage your projects. <a href="/create-organisation/">Create one now</a>.</p>
-                </div>
-            <?php else: ?>
-                <h1 class="card-title display-1">My Organisations</h1>
-                <div class="card-body">
-                    <ul>
-                        <?php foreach ($orgList as $org): ?>
-                            <li><a href="/organisation/?org_id=<?= htmlspecialchars($org['orgID']) ?>"><?= htmlspecialchars($org['name']);  ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <p class="card-text"><a href="/create-organisation/">Create another organisation</a>.</p>
-                </div>
-            <?php endif; ?>
+            <h1 class="card-title display-1">Inbox</h1>
+            <div class="card-body">
+                <p class="card-text">This page will eventually show all interactions between the user and other users on the site.</p>
+            </div>
         </div>
     </div>
 </body>
