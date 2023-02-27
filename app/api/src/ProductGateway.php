@@ -19,4 +19,24 @@ class ProductGateway {
         }
         return $data;
     }
+
+    public function create(array $data) {
+        $sql = "INSERT INTO users (email, name, password_hash, userID) VALUES (:email, :name, :password_hash, :userID)";
+        $stmt = $this->conn->prepare($sql);
+
+        try {
+            $stmt->execute([
+                'email' => $data["email"],
+                'name' => $data["name"],
+                'password_hash' => $data["password_hash"],
+                'userID' => $data["userID"]
+            ]);
+        } catch (PDOException $e) {
+            if (str_contains($e->getMessage(), "1062 Duplicate entry")) { 
+                die("Duplicate email.");
+            };
+        }
+
+        return $this->conn->lastInsertId();
+    }
 }
