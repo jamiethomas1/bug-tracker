@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+ini_set("html_errors", 0);
+
 // Look at using something like Composer for autoloading
 spl_autoload_register(function ($class) {
     require __DIR__ . "/src/$class.php";
@@ -27,3 +29,5 @@ $gateway = new ProductGateway($dbh);
 
 $controller = new ProductController($gateway);
 $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+
+ini_set("html_errors", 1);
