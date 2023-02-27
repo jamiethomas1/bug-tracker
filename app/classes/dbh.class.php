@@ -20,7 +20,7 @@ class Dbh {
         $this->dbname = getenv("MYSQL_DATABASE");
     }
 
-    protected function connect(){
+    protected function connect($attr = []){
         $dsn = "mysql:host=$this->host;port=3306;dbname=$this->dbname;charset=utf8";
 
         $options = [
@@ -28,8 +28,10 @@ class Dbh {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
 
+        $attributes = array_merge($options, $attr);
+
         try {
-            $pdo = new PDO($dsn, $this->user, $this->psw, $options);
+            $pdo = new PDO($dsn, $this->user, $this->psw, $attributes);
         } catch (PDOException $Exception) {
             echo "PDO Error: " . $Exception->getMessage();
         }
