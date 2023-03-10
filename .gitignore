@@ -1,1 +1,3 @@
 production.env
+sql/
+vendor/
