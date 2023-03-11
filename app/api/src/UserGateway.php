@@ -14,7 +14,7 @@ class UserGateway {
         $sql = "SELECT * FROM users";
         $stmt = $this->conn->query($sql);
         $data = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch()) {
             $data[] = $row;
         }
         return $data;
@@ -38,5 +38,15 @@ class UserGateway {
         }
 
         return $this->conn->lastInsertId();
+    }
+
+    public function get(string $id) {
+        $sql = "SELECT * FROM users WHERE userID = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'id' => $id
+        ]);
+        $data = $stmt->fetch();
+        return $data;
     }
 }
