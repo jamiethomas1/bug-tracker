@@ -15,7 +15,47 @@ class UserController {
     }
 
     private function processResourceRequest(string $method, string $id): void {
+        $user = $this->gateway->get($id);
 
+        if (!$user) {
+            http_response_code(404);
+            echo json_encode(["message" => "User not found"]);
+            return;
+        }
+
+        switch ($method) {
+            case "GET":
+                echo json_encode($user);
+                break;
+            case "PATCH":
+                $data = (array) json_decode(file_get_contents("php://input"), true);
+
+                $errors = $this->getValidationErrors($data, false);
+
+                if (!empty($errors)) {
+                    http_response_code(422);
+                    echo json_encode(["errors" => $errors]);
+                    break;
+                }
+
+                $rows = $this->gateway->update($user, $data);
+                echo json_encode([
+                    "message" => "User $id updated",
+                    "rows" => $rows
+                ]);
+                break;
+            case "DELETE":
+                $rows = $this->gateway->delete($id);
+
+                echo json_encode([
+                    "message" => "User $id deleted",
+                    "rows" => $rows
+                ]);
+                break;
+            default:
+                http_response_code(405);
+                header("Allow: GET, PATCH, DELETE");
+        }
     }
 
     private function processCollectionRequest(string $method): void {
@@ -47,20 +87,22 @@ class UserController {
         }
     }
 
-    private function getValidationErrors(array $data): array {
+    private function getValidationErrors(array $data, bool $is_new = true): array {
         $errors = [];
 
-        if (empty($data["email"])) {
-            $errors[] = "email is required";
-        }
-        if (empty($data["name"])) {
-            $errors[] = "name is required";
-        }
-        if (empty($data["password_hash"])) {
-            $errors[] = "password_hash is required";
-        }
-        if (empty($data["userID"])) {
-            $errors[] = "userID is required";
+        if ($is_new) {
+            if (empty($data["email"])) {
+                $errors[] = "email is required";
+            }
+            if (empty($data["name"])) {
+                $errors[] = "name is required";
+            }
+            if (empty($data["password_hash"])) {
+                $errors[] = "password_hash is required";
+            }
+            if (empty($data["userID"])) {
+                $errors[] = "userID is required";
+            }
         }
 
         return $errors;
