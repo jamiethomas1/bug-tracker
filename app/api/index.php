@@ -17,18 +17,19 @@ header("Content-Type: application/json; charset=UTF-8");
 // Look at using something like Fastroute for routing
 $parts = explode("/", $_SERVER['REQUEST_URI']);
 
-if ($parts[2] != "users") {
-    http_response_code(404);
-    exit;
-}
+$dbh = new Database;
 
 $id = $parts[3] ?? null;
 
-$dbh = new Database;
-
-$gateway = new ProductGateway($dbh);
-
-$controller = new ProductController($gateway);
-$controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+switch ($parts[2]) {
+    case "users":
+        $gateway = new UserGateway($dbh);
+        $controller = new UserController($gateway);
+        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        break;
+    default:
+        http_response_code(404);
+        exit;
+}
 
 ini_set("html_errors", 1);

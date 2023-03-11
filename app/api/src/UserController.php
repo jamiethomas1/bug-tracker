@@ -1,7 +1,7 @@
 <?php
 
-class ProductController {
-    public function __construct(private ProductGateway $gateway)
+class UserController {
+    public function __construct(private UserGateway $gateway)
     {
         
     }
