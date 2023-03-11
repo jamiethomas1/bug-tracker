@@ -7,7 +7,8 @@ class Database extends Dbh {
 
         $options = [
             PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::ATTR_STRINGIFY_FETCHES => false
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
 
         return $this->connect($options);
