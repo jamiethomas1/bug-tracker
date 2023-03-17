@@ -27,6 +27,11 @@ switch ($parts[2]) {
         $controller = new UserController($gateway);
         $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
         break;
+    case "organisations":
+        $gateway = new OrgGateway($dbh);
+        $controller = new OrgController($gateway);
+        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        break;
     default:
         http_response_code(404);
         exit;
