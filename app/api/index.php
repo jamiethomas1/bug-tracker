@@ -42,6 +42,11 @@ switch ($parts[2]) {
         $controller = new TicketController($gateway);
         $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
         break;
+    case "responses":
+        $gateway = new ResponseGateway($dbh);
+        $controller = new ResponseController($gateway);
+        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        break;
     default:
         http_response_code(404);
         exit;
