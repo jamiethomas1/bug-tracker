@@ -15,9 +15,9 @@ class OrgController {
     }
 
     private function processResourceRequest(string $method, string $id): void {
-        $user = $this->gateway->get($id);
+        $org = $this->gateway->get($id);
 
-        if (!$user) {
+        if (!$org) {
             http_response_code(404);
             echo json_encode(["message" => "Organisation not found"]);
             return;
@@ -25,7 +25,7 @@ class OrgController {
 
         switch ($method) {
             case "GET":
-                echo json_encode($user);
+                echo json_encode($org);
                 break;
             case "PATCH":
                 $data = (array) json_decode(file_get_contents("php://input"), true);
@@ -38,7 +38,7 @@ class OrgController {
                     break;
                 }
 
-                $rows = $this->gateway->update($user, $data);
+                $rows = $this->gateway->update($org, $data);
                 echo json_encode([
                     "message" => "Organisation $id updated",
                     "rows" => $rows

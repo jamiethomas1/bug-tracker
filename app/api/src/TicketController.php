@@ -15,9 +15,9 @@ class TicketController {
     }
 
     private function processResourceRequest(string $method, string $id): void {
-        $user = $this->gateway->get($id);
+        $ticket = $this->gateway->get($id);
 
-        if (!$user) {
+        if (!$ticket) {
             http_response_code(404);
             echo json_encode(["message" => "Ticket not found"]);
             return;
@@ -25,7 +25,7 @@ class TicketController {
 
         switch ($method) {
             case "GET":
-                echo json_encode($user);
+                echo json_encode($ticket);
                 break;
             case "PATCH":
                 $data = (array) json_decode(file_get_contents("php://input"), true);
@@ -38,7 +38,7 @@ class TicketController {
                     break;
                 }
 
-                $rows = $this->gateway->update($user, $data);
+                $rows = $this->gateway->update($ticket, $data);
                 echo json_encode([
                     "message" => "Ticket $id updated",
                     "rows" => $rows

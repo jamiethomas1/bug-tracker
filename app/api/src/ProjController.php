@@ -15,9 +15,9 @@ class ProjController {
     }
 
     private function processResourceRequest(string $method, string $id): void {
-        $user = $this->gateway->get($id);
+        $project = $this->gateway->get($id);
 
-        if (!$user) {
+        if (!$project) {
             http_response_code(404);
             echo json_encode(["message" => "Project not found"]);
             return;
@@ -25,7 +25,7 @@ class ProjController {
 
         switch ($method) {
             case "GET":
-                echo json_encode($user);
+                echo json_encode($project);
                 break;
             case "PATCH":
                 $data = (array) json_decode(file_get_contents("php://input"), true);
@@ -38,7 +38,7 @@ class ProjController {
                     break;
                 }
 
-                $rows = $this->gateway->update($user, $data);
+                $rows = $this->gateway->update($project, $data);
                 echo json_encode([
                     "message" => "Project $id updated",
                     "rows" => $rows

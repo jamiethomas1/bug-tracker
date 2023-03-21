@@ -15,9 +15,9 @@ class ResponseController {
     }
 
     private function processResourceRequest(string $method, string $id): void {
-        $user = $this->gateway->get($id);
+        $response = $this->gateway->get($id);
 
-        if (!$user) {
+        if (!$response) {
             http_response_code(404);
             echo json_encode(["message" => "Response not found"]);
             return;
@@ -25,7 +25,7 @@ class ResponseController {
 
         switch ($method) {
             case "GET":
-                echo json_encode($user);
+                echo json_encode($response);
                 break;
             case "PATCH":
                 $data = (array) json_decode(file_get_contents("php://input"), true);
@@ -38,7 +38,7 @@ class ResponseController {
                     break;
                 }
 
-                $rows = $this->gateway->update($user, $data);
+                $rows = $this->gateway->update($response, $data);
                 echo json_encode([
                     "message" => "Response $id updated",
                     "rows" => $rows
