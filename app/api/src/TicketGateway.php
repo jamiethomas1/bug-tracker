@@ -1,7 +1,5 @@
 <?php
 
-// Is this file necessary or can I just reference the userController class?
-// Also how can I get rid of the ugly HTML errors?
 class TicketGateway {
     private PDO $conn;
 
