@@ -21,13 +21,20 @@ $parts = explode("/", $_SERVER['REQUEST_URI']);
 
 $dbh = new Database;
 
-$id = $parts[3] ?? null;
+$id = end($parts) ?? null;
 
 switch ($parts[2]) {
-    case "auth/login":
-        $gateway = new LoginGateway($dbh);
-        $controller = new LoginController($gateway);
-        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+    case "auth":
+        switch ($parts[3]) {
+            case "login":
+                $gateway = new LoginGateway($dbh);
+                $controller = new LoginController($gateway);
+                $controller->processRequest($_SERVER["REQUEST_METHOD"], null);
+                break;
+            default:
+                http_response_code(404);
+                exit;
+        }
         break;
     case "users":
         $gateway = new UserGateway($dbh);
