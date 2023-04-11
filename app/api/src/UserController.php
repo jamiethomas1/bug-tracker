@@ -1,5 +1,8 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 class UserController {
     public function __construct(private UserGateway $gateway)
     {
@@ -59,9 +62,22 @@ class UserController {
     }
 
     private function processCollectionRequest(string $method): void {
+
+        $key = 'example_key';
+        $payload = [
+            'iss' => 'http://example.org',
+            'aud' => 'http://example.com',
+            'iat' => 1356999524,
+            'nbf' => 1357000000
+        ];
+
+        $jwt = JWT::encode($payload, $key, 'HS256');
+        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+
         switch ($method) {
             case "GET":
                 echo json_encode($this->gateway->getAll());
+                echo json_encode($decoded);
                 break;
             case "POST":
                 $data = (array) json_decode(file_get_contents("php://input"), true);
