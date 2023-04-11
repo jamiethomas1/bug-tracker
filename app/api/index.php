@@ -28,6 +28,7 @@ switch ($parts[2]) {
         $gateway = new LoginGateway($dbh);
         $controller = new LoginController($gateway);
         $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        break;
     case "users":
         $gateway = new UserGateway($dbh);
         $controller = new UserController($gateway);
