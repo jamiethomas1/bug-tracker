@@ -24,6 +24,10 @@ $dbh = new Database;
 $id = $parts[3] ?? null;
 
 switch ($parts[2]) {
+    case "auth/login":
+        $gateway = new LoginGateway($dbh);
+        $controller = new LoginController($gateway);
+        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
     case "users":
         $gateway = new UserGateway($dbh);
         $controller = new UserController($gateway);
