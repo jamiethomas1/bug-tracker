@@ -25,6 +25,8 @@ class LoginGateway {
 
         $user = $this->getUserByEmail($em);
 
+        // Temporary. When the API is connected up to React frontend, the password will be hashed before
+        // sending it in the API request. Then the server will simply check hash against hash.
         if ($user && password_verify($pw, $user['password_hash'])) {
             return $this->generateToken($user);
         } else {
