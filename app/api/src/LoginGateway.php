@@ -11,26 +11,7 @@ class LoginGateway {
         $this->conn = $database->getConnection();
     }
 
-    public function oldauthenticate(array $data) {
-        $sql = "INSERT INTO orgs (name, ownerID, orgID) VALUES (:name, :ownerID, :orgID)";
-        $stmt = $this->conn->prepare($sql);
-
-        try {
-            $stmt->execute([
-                'name' => $data["name"],
-                'ownerID' => $data["ownerID"],
-                'orgID' => $data["orgID"]
-            ]);
-        } catch (PDOException $e) {
-            if (str_contains($e->getMessage(), "1062 Duplicate entry")) { 
-                die("Duplicate organisation ID.");
-            };
-        }
-
-        return $this->conn->lastInsertId();
-    }
-
-    public function authenticate(array $data) {
+    public function authenticate(array $data) : string | false {
        // Need to check if $data is empty, and if it contains both email and password properties
 
         if (empty($data)
@@ -44,10 +25,10 @@ class LoginGateway {
 
         $user = $this->getUserByEmail($em);
 
-        if ($user) {
-            if (password_verify($pw, $user['password_hash'])) {
-                return $this->generateToken($user);
-            }
+        if ($user && password_verify($pw, $user['password_hash'])) {
+            return $this->generateToken($user);
+        } else {
+            return false;
         }
     }
 
