@@ -33,11 +33,19 @@ class LoginController {
                 }
 
                 $token = $this->gateway->authenticate($data);
-                http_response_code(200);
-                echo json_encode([
-                    "message" => "Login successful",
-                    "token" => $token
-                ]);
+                if ($token !== false) {
+                    http_response_code(200);
+                    echo json_encode([
+                        "message" => "Login successful",
+                        "token" => $token
+                    ]);
+                } else {
+                    http_response_code(401);
+                    echo json_encode([
+                        "message" => "Login failed"
+                    ]);
+                }
+
                 break;
             default:
                 http_response_code(405);
