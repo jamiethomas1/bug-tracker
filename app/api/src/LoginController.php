@@ -6,17 +6,8 @@ class LoginController {
         
     }
 
-    public function processRequest(string $method, ?string $id): void {
-        if ($id) {
-            $this->processResourceRequest($method, $id);
-        } else {
-            $this->processCollectionRequest($method);
-        }
-    }
-
-    private function processResourceRequest(string $method, string $id): void {
-        http_response_code(405);
-        header("Allow:");
+    public function processRequest(string $method): void {
+        $this->processCollectionRequest($method);
     }
 
     private function processCollectionRequest(string $method): void {
