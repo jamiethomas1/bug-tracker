@@ -30,11 +30,18 @@ if ($parts[2] == "auth") {
     $id = $parts[3] ?? null;
 }
 
+$authenticated = false;
 $key = getenv("JWT_SIGNATURE_KEY");
 if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
     $jwt = explode(" ", $_SERVER["HTTP_AUTHORIZATION"])[1];
-    $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-    print_r($decoded);
+    try {
+        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+        $authenticated = true; // This should only execute if the above line does not throw an exception;
+    } catch (LogicException $e) {
+        $authenticated = false;
+    } catch (UnexpectedValueException $e) {
+        $authenticated = false;
+    }
 }
 
 switch ($parts[2]) {
@@ -51,29 +58,54 @@ switch ($parts[2]) {
         }
         break;
     case "users":
-        $gateway = new UserGateway($dbh);
-        $controller = new UserController($gateway);
-        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        if ($authenticated) {
+            $gateway = new UserGateway($dbh);
+            $controller = new UserController($gateway);
+            $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        } else {
+            http_response_code(401);
+            exit;
+        }
         break;
     case "organisations":
-        $gateway = new OrgGateway($dbh);
-        $controller = new OrgController($gateway);
-        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        if ($authenticated) {
+            $gateway = new OrgGateway($dbh);
+            $controller = new OrgController($gateway);
+            $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        } else {
+            http_response_code(401);
+            exit;
+        }
         break;
     case "projects":
-        $gateway = new ProjGateway($dbh);
-        $controller = new ProjController($gateway);
-        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        if ($authenticated) {
+            $gateway = new ProjGateway($dbh);
+            $controller = new ProjController($gateway);
+            $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        } else {
+            http_response_code(401);
+            exit;
+        }
         break;
     case "tickets":
-        $gateway = new TicketGateway($dbh);
-        $controller = new TicketController($gateway);
-        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        if ($authenticated) {
+            $gateway = new TicketGateway($dbh);
+            $controller = new TicketController($gateway);
+            $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        } else {
+            http_response_code(401);
+            exit;
+        }
         break;
     case "responses":
-        $gateway = new ResponseGateway($dbh);
-        $controller = new ResponseController($gateway);
-        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        if ($authenticated) {
+            $gateway = new ResponseGateway($dbh);
+            $controller = new ResponseController($gateway);
+            $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        } else {
+            http_response_code(401);
+            exit;
+        }
         break;
     default:
         http_response_code(404);
