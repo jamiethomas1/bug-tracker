@@ -57,14 +57,8 @@ class RegisterController {
             if (!filter_var($data["email"], FILTER_VALIDATE_EMAIL)) {
                $errors[] = "invalid email";
             }
-            if (empty($data["password"])) {
-                $errors[] = "password is required";
-            }
-            if (!preg_match("/[a-z]/i", $data['password'])) {
-                $errors[] = "password must contain at least one letter";
-            }
-            if (!preg_match("/[0-9]/", $data['password'])) {
-                $errors[] = "password must contain at least one number";
+            if (empty($data["password_hash"])) {
+                $errors[] = "password_hash is required";
             }
         }
 
