@@ -52,6 +52,11 @@ switch ($parts[2]) {
                 $controller = new LoginController($gateway);
                 $controller->processRequest($_SERVER["REQUEST_METHOD"]);
                 break;
+            case "register":
+                $gateway = new RegisterGateway($dbh);
+                $controller = new RegisterController($gateway);
+                $controller->processRequest($_SERVER["REQUEST_METHOD"]);
+                break;
             default:
                 http_response_code(404);
                 exit;
