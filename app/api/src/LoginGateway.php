@@ -49,6 +49,7 @@ class LoginGateway {
         $key = getenv("JWT_SIGNATURE_KEY");
         $payload = [
             'iat' => time(),
+            'exp' => time() + 1800, // Expires 30 minutes after issue
             'sub' => $user["userID"]
         ];
         $jwt = JWT::encode($payload, $key, 'HS256');
