@@ -39,6 +39,8 @@ if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
         // If expiry time is in the future
         if ($decoded['exp'] > time()) {
             $authenticated = true;
+        } else {
+            // Access token expired: generate new one
         }
     } catch (LogicException $e) {
         $authenticated = false;
