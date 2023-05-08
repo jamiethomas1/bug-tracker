@@ -41,6 +41,11 @@ if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
             $authenticated = true;
         } else {
             // Access token expired: generate new one
+            http_response_code(401);
+            echo json_encode([
+               "message" => "Token expired"
+            ]);
+            exit;
         }
     } catch (LogicException $e) {
         $authenticated = false;
