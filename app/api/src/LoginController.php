@@ -23,12 +23,13 @@ class LoginController {
                     break;
                 }
 
-                $token = $this->gateway->authenticate($data);
-                if ($token !== false) {
+                $jwt = (array) json_decode($this->gateway->authenticate($data));
+                if ($jwt !== false) {
                     http_response_code(200);
                     echo json_encode([
                         "message" => "Login successful",
-                        "token" => $token
+                        "token" => $jwt['access_token'],
+                        "refresh" => $jwt['refresh_token']
                     ]);
                 } else {
                     http_response_code(401);
