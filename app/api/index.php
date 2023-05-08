@@ -67,6 +67,11 @@ switch ($parts[2]) {
                 $controller = new RegisterController($gateway);
                 $controller->processRequest($_SERVER["REQUEST_METHOD"]);
                 break;
+            case "refresh":
+                $gateway = new RefreshGateway($dbh);
+                $controller = new RefreshController($gateway);
+                $controller->processRequest($_SERVER["REQUEST_METHOD"]);
+                break;
             default:
                 http_response_code(404);
                 exit;
