@@ -3,6 +3,8 @@
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+include_once("/app/php-scripts/randomString.php");
+
 class LoginGateway {
     private PDO $conn;
 
@@ -28,7 +30,7 @@ class LoginGateway {
         // Temporary. When the API is connected up to React frontend, the password will be hashed before
         // sending it in the API request. Then the server will simply check hash against hash.
         if ($user && password_verify($pw, $user['password_hash'])) {
-            return $this->generateToken($user);
+            return $this->generateTokens($user);
         } else {
             return false;
         }
@@ -45,7 +47,8 @@ class LoginGateway {
         return $stmt->fetch();
     }
 
-    private function generateToken($user) {
+    private function generateTokens($user) {
+        // Access token
         $key = getenv("JWT_SIGNATURE_KEY");
         $payload = [
             'iat' => time(),
@@ -53,6 +56,24 @@ class LoginGateway {
             'sub' => $user["userID"]
         ];
         $jwt = JWT::encode($payload, $key, 'HS256');
-        return $jwt;
+
+        // Refresh token
+        $refresh = getRandomString(64);
+        $sql = "INSERT INTO refresh (userID, refreshToken, tokenStatus) VALUES (:userID, :refreshToken, :tokenStatus)";
+        $stmt = $this->conn->prepare($sql);
+        try {
+            $stmt->execute([
+                'userID' => $user["userID"],
+                'refreshToken' => $refresh,
+                'tokenStatus' => "active"
+            ]);
+        } catch (PDOException $e) {
+            die($e);
+        }
+
+        return json_encode([
+            'access_token' => $jwt,
+            'refresh_token' => $refresh
+        ]);
     }
 }
