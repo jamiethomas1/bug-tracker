@@ -30,6 +30,7 @@ if ($parts[2] == "auth") {
     $id = $parts[3] ?? null;
 }
 
+// This needs cleaning up
 $authenticated = false;
 $key = getenv("JWT_SIGNATURE_KEY");
 if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
