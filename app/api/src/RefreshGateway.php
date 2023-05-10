@@ -13,18 +13,17 @@ class RefreshGateway {
         $this->conn = $database->getConnection();
     }
 
-    public function authenticate(array $data) : string | false {
-       // Need to check if $data is empty, and if it contains both email and password properties
+    public function authenticate(string $data) : string | false {
 
         $refresh_key = getenv("REFRESH_TOKEN_KEY");
         $refresh_encoded = $data;
-        $refresh = JWT::decode($refresh_encoded, new Key($refresh_key, 'HS256'));
+        $refresh = (array) JWT::decode($refresh_encoded, new Key($refresh_key, 'HS256'));
 
-        $user = $this->getUserById($data['userID']);
+        $user = $this->getUserById($refresh['userID']);
 
         // Temporary. When the API is connected up to React frontend, the password will be hashed before
         // sending it in the API request. Then the server will simply check hash against hash.
-        if ($user && $this->getRefreshToken($data['secret'])) {
+        if ($user && $this->getRefreshToken($refresh['secret'])) {
             return $this->generateToken($user);
         } else {
             return false;
@@ -62,5 +61,6 @@ class RefreshGateway {
             'sub' => $user["userID"]
         ];
         $jwt = JWT::encode($payload, $key, 'HS256');
+        return $jwt;
     }
 }
