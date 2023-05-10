@@ -23,13 +23,12 @@ class RefreshController {
                     break;
                 }
 
-                $jwt = (array) json_decode($this->gateway->authenticate($data));
+                $jwt = $this->gateway->authenticate($data['refresh_token']);
                 if ($jwt !== false) {
                     http_response_code(200);
                     echo json_encode([
                         "message" => "Session restored",
-                        "token" => $jwt['access_token'],
-                        "refresh" => $jwt['refresh_token']
+                        "token" => $jwt
                     ]);
                 } else {
                     http_response_code(401);
@@ -49,11 +48,8 @@ class RefreshController {
         $errors = [];
 
         if ($is_new) {
-            if (empty($data["userID"])) {
-                $errors[] = "userID is required";
-            }
-            if (empty($data["secret"])) {
-                $errors[] = "secret is required";
+            if (empty($data["refresh_token"])) {
+                $errors[] = "refresh_token is required";
             }
         }
 
