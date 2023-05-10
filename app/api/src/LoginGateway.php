@@ -71,7 +71,7 @@ class LoginGateway {
             die($e);
         }
 
-        $refersh_key = getenv("REFRESH_TOKEN_KEY");
+        $refresh_key = getenv("REFRESH_TOKEN_KEY");
         $refresh_encoded = JWT::encode($refresh, $refresh_key, 'HS256');
 
         return json_encode([
