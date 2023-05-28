@@ -23,7 +23,7 @@ class RefreshController {
                     break;
                 }
 
-                $jwt = $this->gateway->authenticate($data['refresh_token']);
+                $jwt = $this->gateway->authenticate($data['userID'], $data['refresh_token']);
                 if ($jwt !== false) {
                     http_response_code(200);
                     echo json_encode([
@@ -50,6 +50,9 @@ class RefreshController {
         if ($is_new) {
             if (empty($data["refresh_token"])) {
                 $errors[] = "refresh_token is required";
+            }
+            if (empty($data["userID"])) {
+                $errors[] = "userID is required";
             }
         }
 
