@@ -28,6 +28,12 @@ class RefreshGateway {
         // sending it in the API request. Then the server will simply check hash against hash.
         $requestedToken = $this->getRefreshToken($refresh['secret']);
         if ($requestedToken && $user && $user['userID'] == $requestedToken['userID']) {
+            if ($requestedToken['tokenStatus'] == "active" && strtotime($requestedToken['dt'] > (time() - 15778463))) {
+                    // Set to expired
+                    return false;
+                } else if ($requestedToken['tokenStatus'] == "expired") {
+                    return false;
+                }
             return $this->generateToken();
         } else {
             return false;
