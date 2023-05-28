@@ -24,16 +24,19 @@ class RefreshGateway {
 
         $user = $this->getUserById($userID);
 
-        // Temporary. When the API is connected up to React frontend, the password will be hashed before
-        // sending it in the API request. Then the server will simply check hash against hash.
+        // $requestedToken contains the entire row of the refresh table relevant to the given token
         $requestedToken = $this->getRefreshToken($refresh['secret']);
+
+        // Checking if token exists in db, if user exists, and if user and token match
         if ($requestedToken && $user && $user['userID'] == $requestedToken['userID']) {
-            if ($requestedToken['tokenStatus'] == "active" && strtotime($requestedToken['dt'] > (time() - 15778463))) {
-                    // Set to expired
+            // Check if refresh token needs to be expired
+            if ($requestedToken['tokenStatus'] == "active" && strtotime($requestedToken['dt']) < (time() - 15778463)) {
+                    $this->setTokenStatus($requestedToken['refreshToken'], "expired");
                     return false;
-                } else if ($requestedToken['tokenStatus'] == "expired") {
+                } else if ($requestedToken['tokenStatus'] == "expired") { // Check if token is expired
                     return false;
                 }
+            // All being well, generate token
             return $this->generateToken();
         } else {
             return false;
@@ -60,6 +63,19 @@ class RefreshGateway {
             die($e);
         }
         return $stmt->fetch();
+    }
+
+    private function setTokenStatus($token, $status) {
+        $sql = "UPDATE refresh SET tokenStatus = :status WHERE refreshToken = :token";
+        $stmt = $this->conn->prepare($sql);
+        try {
+            $stmt->execute([
+                'token' => $token,
+                'status' => $status
+            ]);
+        } catch (PDOException $e) {
+            die($e);
+        }
     }
 
     private function generateToken() {
