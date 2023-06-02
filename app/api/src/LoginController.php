@@ -28,9 +28,7 @@ class LoginController {
                     http_response_code(200);
                     echo json_encode([
                         "message" => "Login successful",
-                        "user" => $jwt['user'],
-                        "token" => $jwt['access_token'],
-                        "refresh" => $jwt['refresh_token']
+                        "user" => $jwt
                     ]);
                 } else {
                     http_response_code(401);
