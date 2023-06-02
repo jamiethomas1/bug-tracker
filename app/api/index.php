@@ -36,7 +36,7 @@ $key = getenv("JWT_SIGNATURE_KEY");
 if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
     $jwt = explode(" ", $_SERVER["HTTP_AUTHORIZATION"])[1];
     try {
-        $decoded = (array) JWT::decode($jwt, new Key($key, 'HS256')); // Nothing after this line will run if an exception is thrown
+        $decoded = (array) JWT::decode($jwt, new Key($key, 'HS512')); // Nothing after this line will run if an exception is thrown
         // If expiry time is in the future
         if ($decoded['exp'] > time()) {
             $authenticated = true;

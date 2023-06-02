@@ -17,7 +17,7 @@ class RefreshGateway {
 
         $refresh_key = getenv("REFRESH_TOKEN_KEY");
         try {
-            $refresh = (array) JWT::decode($refresh_encoded, new Key($refresh_key, 'HS256'));
+            $refresh = (array) JWT::decode($refresh_encoded, new Key($refresh_key, 'HS512'));
         } catch (Exception $e) {
             return false;
         }
@@ -85,7 +85,7 @@ class RefreshGateway {
             'iat' => time(),
             'exp' => time() + 1800, // Expires 30 minutes after issue
         ];
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        $jwt = JWT::encode($payload, $key, 'HS512');
         return $jwt;
     }
 }

@@ -55,7 +55,7 @@ class LoginGateway {
             'exp' => time() + 1800, // Expires 30 minutes after issue
             'sub' => $user["userID"]
         ];
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        $jwt = JWT::encode($payload, $key, 'HS512');
 
         // Refresh token
         $refresh = getRandomString(64);
@@ -76,7 +76,7 @@ class LoginGateway {
             'userID' => $user['userID'],
             'secret' => $refresh
         ];
-        $refresh_encoded = JWT::encode($refresh_payload, $refresh_key, 'HS256');
+        $refresh_encoded = JWT::encode($refresh_payload, $refresh_key, 'HS512');
 
         $user['access_token'] = $jwt;
         $user['refresh_token'] = $refresh_encoded;       
