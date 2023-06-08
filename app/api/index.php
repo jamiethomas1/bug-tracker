@@ -78,6 +78,11 @@ switch ($parts[2]) {
                 exit;
         }
         break;
+    case "checkUser":
+        $gateway = new CheckUserGateway($dbh);
+        $controller = new CheckUserController($gateway);
+        $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
+        break;
     case "users":
         if ($authenticated) {
             $gateway = new UserGateway($dbh);
