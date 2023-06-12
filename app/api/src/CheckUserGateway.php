@@ -30,7 +30,7 @@ class CheckUserGateway {
         return $data;
     }
 
-    private function createUser(array $data) : bool {
+    private function createUser(array $data) {
         $sql = "INSERT INTO users (email, name, image, userID) VALUES (:email, :name, :image, :userID)";
         $stmt = $this->conn->prepare($sql);
 
