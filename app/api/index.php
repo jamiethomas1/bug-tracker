@@ -18,6 +18,17 @@ set_error_handler("ErrorHandler::handleError");
 set_exception_handler("ErrorHandler::handleException");
 
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: http://localhost:3000");
+
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header( 'Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, authorization' );
+    // add cache control for preflight cache
+    // @link https://httptoolkit.tech/blog/cache-your-cors/
+    header( 'Access-Control-Max-Age: 86400' );
+    header( 'Cache-Control: public, max-age=86400' );
+    header( 'Vary: origin' );
+    exit(0);
+}
 
 // Look at using something like Fastroute for routing
 $parts = explode("/", $_SERVER['REQUEST_URI']);
