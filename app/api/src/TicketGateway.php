@@ -19,8 +19,8 @@ class TicketGateway {
     }
 
     public function create(array $data) {
-      $sql = "INSERT INTO tickets (name, body, ownerID, orgID, projID, ticketID) 
-        VALUES (:name, :body, :ownerID, :orgID, :projID, :ticketID)";
+      $sql = "INSERT INTO tickets (name, body, ownerID, projID, ticketID) 
+        VALUES (:name, :body, :ownerID, :projID, :ticketID)";
         $stmt = $this->conn->prepare($sql);
 
         try {
@@ -28,7 +28,6 @@ class TicketGateway {
                 'name' => $data["name"],
                 'body' => $data["body"],
                 'ownerID' => $data["ownerID"],
-                'orgID' => $data["orgID"],
                 'projID' => $data["projID"],
                 'ticketID' => $data["ticketID"]
             ]);
@@ -53,13 +52,12 @@ class TicketGateway {
 
     public function update(array $current, array $new): int {
       $sql = "UPDATE tickets 
-        SET name = :name, body = :body, ownerID = :ownerID, orgID = :orgID, projID = :projID, ticketID = :ticketID 
+        SET name = :name, body = :body, ownerID = :ownerID, projID = :projID, ticketID = :ticketID 
         WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(":name", $new['name'] ?? $current['name'], PDO::PARAM_STR);
         $stmt->bindValue(":body", $new['body'] ?? $current['body'], PDO::PARAM_STR);
         $stmt->bindValue(":ownerID", $new['ownerID'] ?? $current['ownerID'], PDO::PARAM_STR);
-        $stmt->bindValue(":orgID", $new['orgID'] ?? $current['orgID'], PDO::PARAM_STR);
         $stmt->bindValue(":projID", $new['projID'] ?? $current['projID'], PDO::PARAM_STR);
         $stmt->bindValue(":ticketID", $new['ticketID'] ?? $current['ticketID'], PDO::PARAM_STR);
         

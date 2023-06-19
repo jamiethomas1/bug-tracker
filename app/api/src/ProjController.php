@@ -97,9 +97,6 @@ class ProjController {
             if (empty($data["ownerID"])) {
                 $errors[] = "ownerID is required";
             }
-            if (empty($data["orgID"])) {
-                $errors[] = "orgID is required";
-            }
             if (empty($data["projID"])) {
                 $errors[] = "projID is required";
             }

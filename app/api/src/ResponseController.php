@@ -103,9 +103,6 @@ class ResponseController {
             if (empty($data["userID"])) {
                 $errors[] = "userID is required";
             }
-            if (empty($data["orgID"])) {
-                $errors[] = "orgID is required";
-            }
             if (empty($data["projID"])) {
                 $errors[] = "projID is required";
             }

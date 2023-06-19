@@ -19,8 +19,8 @@ class ResponseGateway {
     }
 
     public function create(array $data) {
-      $sql = "INSERT INTO responses (name, body, responseNum, userID, orgID, projID, ticketID, responseID) 
-        VALUES (:name, :body, :responseNum, :userID, :orgID, :projID, :ticketID, :responseID)";
+      $sql = "INSERT INTO responses (name, body, responseNum, userID, projID, ticketID, responseID) 
+        VALUES (:name, :body, :responseNum, :userID, :projID, :ticketID, :responseID)";
         $stmt = $this->conn->prepare($sql);
 
         try {
@@ -29,7 +29,6 @@ class ResponseGateway {
                 'body' => $data["body"],
                 'responseNum' => (int) $data["responseNum"],
                 'userID' => $data["userID"],
-                'orgID' => $data["orgID"],
                 'projID' => $data["projID"],
                 'ticketID' => $data["ticketID"],
                 'responseID' => $data["responseID"]
@@ -55,7 +54,7 @@ class ResponseGateway {
 
     public function update(array $current, array $new): int {
       $sql = "UPDATE responses 
-        SET name = :name, body = :body, responseNum = :responseNum, userID = :userID, orgID = :orgID, 
+        SET name = :name, body = :body, responseNum = :responseNum, userID = :userID, 
         projID = :projID, ticketID = :ticketID, responseID = :responseID 
         WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
@@ -63,7 +62,6 @@ class ResponseGateway {
         $stmt->bindValue(":body", $new['body'] ?? $current['body'], PDO::PARAM_STR);
         $stmt->bindValue(":responseNum", $new['responseNum'] ?? $current['responseNum'], PDO::PARAM_INT);
         $stmt->bindValue(":userID", $new['userID'] ?? $current['userID'], PDO::PARAM_STR);
-        $stmt->bindValue(":orgID", $new['orgID'] ?? $current['orgID'], PDO::PARAM_STR);
         $stmt->bindValue(":projID", $new['projID'] ?? $current['projID'], PDO::PARAM_STR);
         $stmt->bindValue(":ticketID", $new['ticketID'] ?? $current['ticketID'], PDO::PARAM_STR);
         $stmt->bindValue(":responseID", $new['responseID'] ?? $current['responseID'], PDO::PARAM_STR);

@@ -104,16 +104,6 @@ switch ($parts[2]) {
             exit;
         }
         break;
-    case "organisations":
-        if ($authenticated) {
-            $gateway = new OrgGateway($dbh);
-            $controller = new OrgController($gateway);
-            $controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
-        } else {
-            http_response_code(401);
-            exit;
-        }
-        break;
     case "projects":
         if ($authenticated) {
             $gateway = new ProjGateway($dbh);

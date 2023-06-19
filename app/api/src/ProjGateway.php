@@ -19,19 +19,18 @@ class ProjGateway {
     }
 
     public function create(array $data) {
-        $sql = "INSERT INTO projects (name, ownerID, orgID, projID) VALUES (:name, :ownerID, :orgID, :projID)";
+        $sql = "INSERT INTO projects (name, ownerID, projID) VALUES (:name, :ownerID, :projID)";
         $stmt = $this->conn->prepare($sql);
 
         try {
             $stmt->execute([
                 'name' => $data["name"],
                 'ownerID' => $data["ownerID"],
-                'orgID' => $data["orgID"],
                 'projID' => $data["projID"]
             ]);
         } catch (PDOException $e) {
             if (str_contains($e->getMessage(), "1062 Duplicate entry")) { 
-                die("Duplicate organisation ID.");
+                die("Duplicate entry");
             };
         }
 
@@ -49,11 +48,10 @@ class ProjGateway {
     }
 
     public function update(array $current, array $new): int {
-        $sql = "UPDATE projects SET name = :name, ownerID = :ownerID, orgID = :orgID, projID = :projID WHERE id = :id";
+        $sql = "UPDATE projects SET name = :name, ownerID = :ownerID, projID = :projID WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(":name", $new['name'] ?? $current['name'], PDO::PARAM_STR);
         $stmt->bindValue(":ownerID", $new['ownerID'] ?? $current['ownerID'], PDO::PARAM_STR);
-        $stmt->bindValue(":orgID", $new['orgID'] ?? $current['orgID'], PDO::PARAM_STR);
         $stmt->bindValue(":projID", $new['projID'] ?? $current['projID'], PDO::PARAM_STR);
         
         $stmt->bindValue(":id", $current['id'], PDO::PARAM_INT);
