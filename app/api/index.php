@@ -41,7 +41,7 @@ if ($parts[2] == "auth") {
     $id = $parts[3] ?? null;
 }
 
-// This needs cleaning up
+// This needs cleaning up - this can simply be a function in a different file which returns true or false, then here just pipe that into the $authenticated variable
 $authenticated = false;
 $key = getenv("JWT_SIGNATURE_KEY");
 if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
@@ -63,6 +63,10 @@ if (array_key_exists("HTTP_AUTHORIZATION", $_SERVER)) {
         $authenticated = false;
     } catch (UnexpectedValueException $e) {
         $authenticated = false;
+    }
+    // Override JWT parsing if master token is used: this is required for getStaticPaths() in NextJS
+    if ($jwt == getenv("MASTER_ACCESS_TOKEN")) {
+        $authenticated = true;
     }
 }
 
